@@ -3,11 +3,11 @@ YELLOW =\033[38;5;220m
 END=\033[0m
 NEWSECTION = "$(GREEN)--------------------------------------------------$(END)"
 
-NAME = FdF
+NAME = miniRT
 LIBFT = ./libft/libft.a
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
-HEADER= FdF.h
+HEADER= miniRT.h
 
 LIBRARIES = -lmlx -lm -lft -L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY) -framework OpenGL -framework AppKit
 INCLUDES = -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS)
