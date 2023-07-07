@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   image.c                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 00:34:53 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/07 16:19:38 by phunguye         ###   ########.fr       */
+/*   Created: 2022/03/20 10:57:31 by phunguye          #+#    #+#             */
+/*   Updated: 2022/03/20 10:57:52 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniRT.h"
+#include "libft.h"
 
-void	clear_screen(t_mlxdata *mlxdata)
+/* string compare */
+int	ft_strcmp(char *s1, char *s2)
 {
-	int	x;
-	int	y;
+	int i;
 
-	y = 0;
-	while (y < W_HEIGHT)
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0')
 	{
-		x = 0;
-		while (x < W_WIDTH)
-			ft_pixelput(mlxdata, x++, y, BLACK);
-		y++;
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		++i;
 	}
+	return (s1[i] - s2[i]);
 }

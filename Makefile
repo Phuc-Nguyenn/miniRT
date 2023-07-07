@@ -1,80 +1,50 @@
-GREEN=\033[38;5;046m
-YELLOW =\033[38;5;220m
-END=\033[0m
-NEWSECTION = "$(GREEN)--------------------------------------------------$(END)"
-
 NAME = miniRT
-LIBFT = ./libft/libft.a
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
-HEADER= miniRT.h
+FLAGS = -Werror -Wextra -Wall
 
-LIBRARIES = -lmlx -lm -lft -L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY) -framework OpenGL -framework AppKit
-INCLUDES = -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS)
+files = main.c\
+	image.c\
+	ft_pixelput.c\
+	vector_operations.c\
+	
+SRCS = $(addprefix ./SRCS/, $(files))
+OBJS = $(SRCS:c=o)
 
-LIBFT = $(LIBFT_DIRECTORY)libft.a
-LIBFT_DIRECTORY = ./libft/
-LIBFT_HEADERS = $(LIBFT_DIRECTORY)
-
-#for linux
-#MINILIBX = $(MINILIBX_DIRECTORY)libmlx.a
-#MINILIBX_DIRECTORY = ./minilibx-linux/
-#MINILIBX_HEADERS = $(MINILIBX_DIRECTORY)
-
-#for mac
-MINILIBX = $(MINILIBX_DIRECTORY)libmlx.a
-MINILIBX_DIRECTORY = ./minilibx/
-MINILIBX_HEADERS = $(MINILIBX_DIRECTORY)
-
-srcs = 
-
-gnl_srcs =	get_next_line.c\
+gnl = get_next_line.c\
 			get_next_line_utils.c\
 
-SRCS = $(addprefix ./SRCS/, $(srcs))
-OBJS = $(SRCS:c=o)
-GNL_SRCS = $(addprefix ./get_next_line/, $(gnl_srcs))
+GNL_SRCS = $(addprefix ./get_next_line/, $(gnl))
 GNL_OBJS = $(GNL_SRCS:c=o)
+
+LIBFTPRINTF = ./libftprintf/libftprintf.a
+MINILIBX = ./minilibx/libmlx.a
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
-$(LIBFT):
-	@echo "$(YELLOW)Building libft library...$(END)"
-	$(MAKE) -C ./libft
-	@echo "$(GREEN)libft library built successfully!$(END)"
-	@echo $(NEWSECTION)
+$(LIBFTPRINTF):
+	$(MAKE) -C ./libftprintf
 
 $(MINILIBX):
-	@echo "$(NAME): $(GREEN)Creating $(MINILIBX)...$(END)"
-	@$(MAKE) -sC $(MINILIBX_DIRECTORY)
+	$(MAKE) -sC ./minilibx
 
-$(NAME): $(OBJS) $(LIBFT) $(GNL_OBJS) $(MINILIBX)
-	@echo "$(YELLOW)Compiling FdF program...$(END)"
-	@$(CC) $(CFLAGS) $(LIBRARIES) $(OBJS) $(GNL_OBJS) -lm $(MLX_FLAGS) $(LIBFT) -o $(NAME)
-	@echo "$(GREEN)FdF program compiled!$(END)"
-	@echo $(NEWSECTION)
-
-$(MINILIBX):
-	@echo "$(NAME): $(GREEN)Creating $(MINILIBX)...$(END)"
-	@$(MAKE) -sC $(MINILIBX_DIRECTORY)
+$(NAME): $(LIBFTPRINTF) $(MINILIBX) $(GNL_OBJS) $(OBJS)
+	$(CC) $(FLAGS) -Lminilibx -lmlx -framework OpenGL -framework AppKit $(GNL_OBJS) $(OBJS) -lm $(LIBFTPRINTF) $(MINILIBX) -o $(NAME)
+	@echo "\n miniRT compiled\n"
 
 clean:
-	@echo "$(YELLOW)Removing object files...$(END)"
-	@rm -rf ./SRCS/*.o
-	@rm -rf ./get_next_line/*.o
-	@$(MAKE) clean -C ./libft
-	@$(MAKE) clean -C $(MINILIBX_DIRECTORY)
-	@echo "$(GREEN)Object files deleted!$(END)"
-	@echo $(NEWSECTION)
+	rm -rf ./SRCS/*.o
+	rm -rf ./get_next_line/*.o
+	$(MAKE) clean -C ./libftprintf
+	$(MAKE) clean -C ./minilibx
 
-fclean: clean
-	@echo "$(YELLOW)Removing object files and program...$(END)"
-	$(MAKE) fclean -C ./libft
-	@rm -rf libmlx.dylib
-	@rm -rf $(NAME)
-	@echo "$(GREEN)fclean completed!$(END)"
-	@echo $(NEWSECTION)
-	
+fclean:
+	rm -rf ./SRCS/*.o
+	rm -rf ./get_next_line/*.o
+	rm -rf libmlx.dylib
+	rm -rf $(NAME)
+	$(MAKE) fclean -C ./libftprintf
+	$(MAKE) clean -C ./minilibx
+
 re: fclean all
