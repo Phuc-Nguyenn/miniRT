@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/07 22:23:07 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/07 22:35:24 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void viewport_init(t_camera *camera) {
 	for(int y = -(W_HEIGHT/2); y <= W_HEIGHT/2; y++) {
 		for(int x = -(W_WIDTH/2); x <= W_WIDTH/2; x++) {
 			pixel_dimension = 2*camera->projection_distance*tan((camera->fov/2)*(M_PI/180.0)/W_WIDTH);
-			camera->viewport[i].x = x*pixel_dimension;
-			camera->viewport[i].y = y*pixel_dimension;
-			camera->viewport[i].z = camera->projection_distance*camera->orientation;
+			camera->viewport[i].x = camera->view_point.x + x*pixel_dimension;
+			camera->viewport[i].y = camera->view_point.y + y*pixel_dimension;
+			camera->viewport[i].z = camera->view_point.z + camera->projection_distance*unit_vct(camera->orientation);
 			i++;
 		}
 	}
