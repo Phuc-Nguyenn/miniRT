@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/07 17:24:33 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/07 22:23:07 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,19 @@ void camera_init(t_camera *camera) {
 	camera->view_point = set_vct(0, 0, 0, 0);
 	camera->orientation = set_vct(0, 0, 1, 0);
 	camera->fov = 53;
-	camera->projection_distance = 1;
+	camera->projection_distance = 5;
 }
 
+/*calculates the pixels of the viewport in the units of the scene*/
 void viewport_init(t_camera *camera) {
+	int i = 0;
 	for(int y = -(W_HEIGHT/2); y <= W_HEIGHT/2; y++) {
 		for(int x = -(W_WIDTH/2); x <= W_WIDTH/2; x++) {
-			camera->viewport.x = x*; (tan(53 * (M_PI/180.0))...
-			camera->viewport.y = x*(tan(53 * (M_PI/180.0)))/WIDTH;
-			camera->viewport.y = x*2/WIDTH;
+			pixel_dimension = 2*camera->projection_distance*tan((camera->fov/2)*(M_PI/180.0)/W_WIDTH);
+			camera->viewport[i].x = x*pixel_dimension;
+			camera->viewport[i].y = y*pixel_dimension;
+			camera->viewport[i].z = camera->projection_distance*camera->orientation;
+			i++;
 		}
 	}
 }

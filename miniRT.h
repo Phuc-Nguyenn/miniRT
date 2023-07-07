@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/07 17:20:51 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/07 22:28:32 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	clear_screen(t_mlxdata *mlxdata);
 t_vector set_vct(float x, float y, float z, float alpha);
 t_vector vct_add(t_vector vct1, t_vector vct2);
 t_vector vct_subtract(t_vector vct1, t_vector vct2);
-t_vector vct_scalar_prod(t_vector vct1, int scalar);
+t_vector vct_scalar_prod(float scalar, t_vector vct1);
 t_vector vct_cross_prod(t_vector vct1, t_vector vct2);
 
 
