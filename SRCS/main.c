@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/08 18:40:01 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/08 21:03:10 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,30 +61,65 @@ void rays_init(t_camera *camera, t_ray **rays)
 }
 
 void get_shapes(t_shapes **shapes) {
-	*shapes = malloc(sizeof(t_shapes));
+	*shapes = malloc(sizeof(t_shapes) * 1);
 	(*shapes)->circles = malloc(sizeof(t_cir));
 	/*basic circle (to be changed)*/
-	(*shapes)->circles[0].center = set_vct(0, 0, 15, 0);
+	(*shapes)->circles[0].center = set_vct(0, 0, 10, 0);
 	(*shapes)->circles[0].radius = 2;
 }
 
+/*returns a normal unit vector to a sphere*/
+t_vct sphere_normal(t_cir sphere, t_vct intersection_point){
+	t_vct normal;
+
+	normal = vct_sub(intersection_point, sphere.center);
+	normal = unit_vct(normal);
+	return(normal);
+}
+
+int get_colour(float r, float g, float b, float l) {
+	int hex_val;
+	int red;
+	int grn;
+	int blu;
+	r *= l;
+	g *= l;
+	b *= l;
+
+	red = (int)(r*255);
+	grn = (int)(g*255);
+	blu = (int)(b*255);
+	hex_val = (red << 16) | (grn << 8) | blu;
+	return(hex_val);
+}
+
+/*calculates the intersections between ray and object*/
 void intersections(t_ray *rays, t_shapes *shapes)
 {
 	float a;
 	float b;
 	float c;
-	int sum = 0;
+	int sph_idx = 0;
 	for(int i = 0; i < W_WIDTH * W_HEIGHT; i++) {
 		a = vct_dot_prod(rays[i].direction,rays[i].direction);
-		sum = sum+sizeof(t_ray);
 		b = 2*(vct_dot_prod(rays[i].start_pos,rays[i].direction)
-			- vct_dot_prod(rays[i].direction,shapes->circles[0].center));
-		c = -2 * vct_dot_prod(shapes->circles[0].center, rays[i].start_pos)
+			- vct_dot_prod(rays[i].direction,shapes->circles[sph_idx].center));
+		c = -2 * vct_dot_prod(shapes->circles[sph_idx].center, rays[i].start_pos)
 			+ vct_dot_prod(rays[i].start_pos,rays[i].start_pos)
-			+ vct_dot_prod(shapes->circles[0].center, shapes->circles[0].center)
+			+ vct_dot_prod(shapes->circles[sph_idx].center, shapes->circles[0].center)
 			- (shapes->circles[0].radius * shapes->circles[0].radius);
-		if(discrim(a,b,c) >= 0)
-			rays[i].colour = WHITE;
+		if(discrim(a,b,c) >= 0) {
+			rays[i].parameter = quadratic_sol(a,b,c);
+			if(rays[i].parameter >= 0) {
+				t_vct intersection_point = vct_scalar_prod(rays[i].parameter,rays[i].direction);
+				t_vct norm = sphere_normal(shapes->circles[sph_idx], intersection_point);
+				float angle_multiplier = 
+				float luminosity = 1-(vct_magnitude(vct_sub(set_vct(-5,3,7,0), intersection_point))/TRACE_DISTANCE);
+				if(luminosity < 0)
+					luminosity = 0;
+				rays[i].colour = get_colour(0.5,0.5,0.5,luminosity);
+			}
+		}
 		i++;
 	}
 }
@@ -99,17 +134,26 @@ void viewport_to_image(t_mlxdata *mlxdata, t_ray **rays) {
 	}
 }
 
+void get_lights(t_light **lights) {
+	*lights = malloc(sizeof(t_light) * 1);
+	(*lights)[0].pos = set_vct(-3, 0, 15, 0);
+	(*lights)[0].lume = 0.5;
+}
+
 void miniRT(t_mlxdata *mlxdata) {
 	t_camera camera;
 	t_ray *rays;
 	t_shapes *shapes;
+	t_light *lights;
 
 	clear_screen(mlxdata);
 	camera_init(&camera);
 	viewport_init(&camera);
 	rays_init(&camera, &rays);
 	get_shapes(&shapes);
+	//get_lights(&lights)
 	intersections(rays, shapes);
+	//luminosity
 	viewport_to_image(mlxdata, &rays);
 	
 	mlx_put_image_to_window(mlxdata->mlx_ptr, mlxdata->win_ptr, mlxdata->img_ptr, 0, 0);

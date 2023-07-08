@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/08 18:34:29 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/08 20:56:14 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 # define W_WIDTH 1920
 # define W_HEIGHT 1080
-# define TRACE_DISTANCE 100
+# define TRACE_DISTANCE 15
 
 typedef struct s_vct
 {
@@ -34,13 +34,19 @@ typedef struct s_vct
 	int alpha;
 } t_vct;
 
-typedef struct ray
+typedef struct s_ray
 {
 	t_vct start_pos;
 	t_vct direction;
 	float parameter;
 	float colour;
 } t_ray;
+
+//lume is the light's luminosity 0<=lume<=1
+typedef struct s_light {
+	t_vct pos;
+	float lume;
+} t_light;
 
 /* camera is a structure containing everything relevant to the camera
  * view_point = the position of the camera
@@ -111,5 +117,6 @@ float quadratic_sol(float a, float b, float c);
 //colours
 # define WHITE 0xFFFFFF
 # define BLACK 0x000000
+# define RED 0xFF0000 
 
 #endif
