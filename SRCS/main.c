@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/08 12:29:37 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:40:01 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int initialise_mlx(t_mlxdata *mlxdata) {
 }
 
 void camera_init(t_camera *camera) {
-	camera = malloc(sizeof(t_camera));
-	camera->viewport = malloc(sizeof(t_vector) * W_HEIGHT * W_WIDTH);
 	camera->view_point = set_vct(0, 0, 0, 0);
 	camera->orientation = set_vct(0, 0, 1, 0);
 	camera->fov = 53;
@@ -34,40 +32,86 @@ void camera_init(t_camera *camera) {
 
 /*calculates the coordinates corresponding to the camera's coordinates*/
 void viewport_init(t_camera *camera) {
+	float pixel_dimension;
 	int i = 0;
-	for(int y = -(W_HEIGHT/2); y <= W_HEIGHT/2; y++) {
-		for(int x = -(W_WIDTH/2); x <= W_WIDTH/2; x++) {
-			pixel_dimension = 2*camera->projection_distance*tan((camera->fov/2)*((M_PI/180.0)/W_WIDTH));
+	camera->viewport = (t_vct *)malloc(sizeof(t_vct) * W_HEIGHT * W_WIDTH);
+	for(int y = -(W_HEIGHT/2); y < W_HEIGHT/2; y++) {
+		for(int x = -(W_WIDTH/2); x < W_WIDTH/2; x++) {
+			pixel_dimension = 2*camera->projection_distance*tan((camera->fov/2)*((M_PI/180.0)))/W_WIDTH;
 			camera->viewport[i].x = camera->view_point.x + x * pixel_dimension;
 			camera->viewport[i].y = camera->view_point.y + y * pixel_dimension;
-			camera->viewport[i].z = camera->view_point.z + camera->projection_distance*unit_vct(camera->orientation);
+			camera->viewport[i].z = camera->view_point.z + camera->projection_distance;
+			//printf("[x,y,z] = %f, %f, %f\n", camera->viewport[i].x, camera->viewport[i].y, camera->viewport[i].z);
 			i++;
 		}
 	}
 }
 
-void rays_init(t_camera *camera, t_ray *rays)
+void rays_init(t_camera *camera, t_ray **rays)
 {
-	for(int i = 0; i < W_WIDTH*W_HEIGHT; i++) {
-		rays[i].start_position = camera->view_point;
-		rays[i].direction = vct_sub(camera->viewport[i],camera->view_point);
-		rays[i].colour = BLACK;
-		rays[i].magnitude = 0;
+	*rays = malloc(sizeof(t_ray) * W_WIDTH * W_HEIGHT);
+	int i;
+	for(i = 0; i < W_WIDTH * W_HEIGHT; i++) {
+		(*rays)[i].start_pos = camera->view_point;
+		(*rays)[i].direction = vct_sub(camera->viewport[i],camera->view_point);
+		//printf("[x,y,z] = %f, %f, %f\n", rays[i].direction.x, rays[i].direction.y, rays[i].direction.z);
+		(*rays)[i].colour = BLACK;
+		(*rays)[i].parameter = 0;
+	}
+}
+
+void get_shapes(t_shapes **shapes) {
+	*shapes = malloc(sizeof(t_shapes));
+	(*shapes)->circles = malloc(sizeof(t_cir));
+	/*basic circle (to be changed)*/
+	(*shapes)->circles[0].center = set_vct(0, 0, 15, 0);
+	(*shapes)->circles[0].radius = 2;
+}
+
+void intersections(t_ray *rays, t_shapes *shapes)
+{
+	float a;
+	float b;
+	float c;
+	int sum = 0;
+	for(int i = 0; i < W_WIDTH * W_HEIGHT; i++) {
+		a = vct_dot_prod(rays[i].direction,rays[i].direction);
+		sum = sum+sizeof(t_ray);
+		b = 2*(vct_dot_prod(rays[i].start_pos,rays[i].direction)
+			- vct_dot_prod(rays[i].direction,shapes->circles[0].center));
+		c = -2 * vct_dot_prod(shapes->circles[0].center, rays[i].start_pos)
+			+ vct_dot_prod(rays[i].start_pos,rays[i].start_pos)
+			+ vct_dot_prod(shapes->circles[0].center, shapes->circles[0].center)
+			- (shapes->circles[0].radius * shapes->circles[0].radius);
+		if(discrim(a,b,c) >= 0)
+			rays[i].colour = WHITE;
+		i++;
+	}
+}
+
+void viewport_to_image(t_mlxdata *mlxdata, t_ray **rays) {
+	int i = 0;
+	for(int y = 0; y < W_HEIGHT; y++) {
+		for(int x = 0; x < W_WIDTH; x++) {
+			ft_pixelput(mlxdata, x, y, (*rays)[i].colour);
+			i++;
+		}
 	}
 }
 
 void miniRT(t_mlxdata *mlxdata) {
-	t_camera *camera;
+	t_camera camera;
 	t_ray *rays;
+	t_shapes *shapes;
 
-	rays = malloc(sizeof(t_ray) * W_WIDTH * W_HEIGHT);
 	clear_screen(mlxdata);
-	camera_init(camera);
-	viewport_init(camera);
-	rays_init(camera, rays);
-	intersections(camera, rays, shapes);
+	camera_init(&camera);
+	viewport_init(&camera);
+	rays_init(&camera, &rays);
+	get_shapes(&shapes);
+	intersections(rays, shapes);
+	viewport_to_image(mlxdata, &rays);
 	
-
 	mlx_put_image_to_window(mlxdata->mlx_ptr, mlxdata->win_ptr, mlxdata->img_ptr, 0, 0);
 }
 
@@ -79,4 +123,5 @@ int main(void)
 		ft_printf("minilibx structure initialisation failed");
 	miniRT(&mlxdata);
 	mlx_loop(mlxdata.mlx_ptr);
+	return(0);
 }

@@ -5,7 +5,7 @@ FLAGS = -Werror -Wextra -Wall
 files = main.c\
 	image.c\
 	ft_pixelput.c\
-	vector_operations.c\
+	vct_operations.c\
 	
 SRCS = $(addprefix ./SRCS/, $(files))
 OBJS = $(SRCS:c=o)
