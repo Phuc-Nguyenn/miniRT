@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/08 12:27:21 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/08 12:29:37 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ void viewport_init(t_camera *camera) {
 void rays_init(t_camera *camera, t_ray *rays)
 {
 	for(int i = 0; i < W_WIDTH*W_HEIGHT; i++) {
-		rays[i] = vct_sub(camera->viewport[i],camera->view_point);
+		rays[i].start_position = camera->view_point;
+		rays[i].direction = vct_sub(camera->viewport[i],camera->view_point);
 		rays[i].colour = BLACK;
+		rays[i].magnitude = 0;
 	}
 }
 

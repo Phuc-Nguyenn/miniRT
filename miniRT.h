@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/08 12:24:12 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/08 12:31:20 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,17 @@ typedef struct ray
 {
 	t_vector start_position;
 	t_vector direction;
-	float magnitude;
+	float parameter;
 	float colour;
 } t_ray;
 
+/* camera is a structure containing everything relevant to the camera
+ * view_point = the position of the camera
+ * orientation = the direction the camera faces
+ * viewport = the coordinates of the camera's pixels
+ * fov = field of view of the camera -> used to calculate the viewport
+ * projection_distance= how far the view port is from the position
+ * what we actually see is the viewport.*/
 typedef struct camera
 {
 	t_vector view_point;
