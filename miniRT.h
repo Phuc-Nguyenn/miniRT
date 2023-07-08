@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/07 22:31:22 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/08 12:24:12 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 # define W_WIDTH 1920
 # define W_HEIGHT 1080
+# define TRACE_DISTANCE 100
 
 typedef struct s_vector
 {
@@ -37,6 +38,7 @@ typedef struct ray
 	t_vector start_position;
 	t_vector direction;
 	float magnitude;
+	float colour;
 } t_ray;
 
 typedef struct camera
@@ -73,7 +75,7 @@ void	clear_screen(t_mlxdata *mlxdata);
 //vector_operations.c
 t_vector set_vct(float x, float y, float z, float alpha);
 t_vector vct_add(t_vector vct1, t_vector vct2);
-t_vector vct_subtract(t_vector vct1, t_vector vct2);
+t_vector vct_sub(t_vector vct1, t_vector vct2);
 t_vector vct_scalar_prod(float scalar, t_vector vct1);
 t_vector vct_cross_prod(t_vector vct1, t_vector vct2);
 t_vector unit_vct(t_vector direction);

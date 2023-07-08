@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/07 22:35:24 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/08 12:27:21 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,40 @@ void camera_init(t_camera *camera) {
 	camera->projection_distance = 5;
 }
 
-/*calculates the pixels of the viewport in the units of the scene*/
+/*calculates the coordinates corresponding to the camera's coordinates*/
 void viewport_init(t_camera *camera) {
 	int i = 0;
 	for(int y = -(W_HEIGHT/2); y <= W_HEIGHT/2; y++) {
 		for(int x = -(W_WIDTH/2); x <= W_WIDTH/2; x++) {
-			pixel_dimension = 2*camera->projection_distance*tan((camera->fov/2)*(M_PI/180.0)/W_WIDTH);
-			camera->viewport[i].x = camera->view_point.x + x*pixel_dimension;
-			camera->viewport[i].y = camera->view_point.y + y*pixel_dimension;
+			pixel_dimension = 2*camera->projection_distance*tan((camera->fov/2)*((M_PI/180.0)/W_WIDTH));
+			camera->viewport[i].x = camera->view_point.x + x * pixel_dimension;
+			camera->viewport[i].y = camera->view_point.y + y * pixel_dimension;
 			camera->viewport[i].z = camera->view_point.z + camera->projection_distance*unit_vct(camera->orientation);
 			i++;
 		}
 	}
 }
 
+void rays_init(t_camera *camera, t_ray *rays)
+{
+	for(int i = 0; i < W_WIDTH*W_HEIGHT; i++) {
+		rays[i] = vct_sub(camera->viewport[i],camera->view_point);
+		rays[i].colour = BLACK;
+	}
+}
+
 void miniRT(t_mlxdata *mlxdata) {
 	t_camera *camera;
+	t_ray *rays;
+
+	rays = malloc(sizeof(t_ray) * W_WIDTH * W_HEIGHT);
+	clear_screen(mlxdata);
 	camera_init(camera);
 	viewport_init(camera);
+	rays_init(camera, rays);
+	intersections(camera, rays, shapes);
 	
-	clear_screen(mlxdata);
+
 	mlx_put_image_to_window(mlxdata->mlx_ptr, mlxdata->win_ptr, mlxdata->img_ptr, 0, 0);
 }
 

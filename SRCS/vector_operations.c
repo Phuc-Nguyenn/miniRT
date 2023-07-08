@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:05:55 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/07 22:29:17 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/08 12:19:46 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_vector vct_add(t_vector vct1, t_vector vct2) {
 	return(new);
 }
 
-t_vector vct_subtract(t_vector vct1, t_vector vct2) {
+t_vector vct_sub(t_vector vct1, t_vector vct2) {
 	t_vector new;
 	new.x = vct1.x - vct2.x;
 	new.y = vct1.y - vct2.y;
