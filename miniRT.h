@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/08 20:56:14 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/08 23:05:31 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 # define W_WIDTH 1920
 # define W_HEIGHT 1080
-# define TRACE_DISTANCE 15
+# define TRACE_DISTANCE 100
 
 typedef struct s_vct
 {
