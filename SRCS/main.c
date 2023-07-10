@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/10 12:32:52 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/10 12:37:22 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,16 @@ void rays_init(t_camera *camera, t_ray **rays)
 
 void get_shapes(t_shapes **shapes) {
 	*shapes = malloc(sizeof(t_shapes) * 1);
-	(*shapes)->circles = malloc(sizeof(t_cir));
+	(*shapes)->circles = malloc(sizeof(t_cir) * 3);
 	/*basic circle (to be changed)*/
-	(*shapes)->circles[0].center = set_vct(-1, 0, 15, 0);
+	(*shapes)->circles[0].center = set_vct(2, 0, 15, 0);
 	(*shapes)->circles[0].radius = 2;
+
+	(*shapes)->circles[1].center = set_vct(1, 0, 15, 0);
+	(*shapes)->circles[1].radius = 2;
+
+	(*shapes)->circles[2].center = set_vct(-2, 0, 15, 0);
+	(*shapes)->circles[2].radius = 2;
 }
 
 /*returns a normal unit vector to a sphere*/
@@ -124,13 +130,9 @@ void sph_hit(t_ray *ray, t_cir *sphere){
 /*calculates the intersections between ray and object*/
 void intersections(t_ray *rays, t_shapes *shapes)
 {
-	float a;
-	float b;
-	float c;
-	int sph_idx = 0;
 	for(int i = 0; i < W_WIDTH * W_HEIGHT; i++) {
-		sph_hit(&rays[i], &(shapes->circles[sph_idx]));
-		i++;
+		for(int s = 0; s < 3; s++)
+			sph_hit(&rays[i], &(shapes->circles[s]));
 	}
 }
 
@@ -163,7 +165,7 @@ void miniRT(t_mlxdata *mlxdata) {
 	get_shapes(&shapes);
 	//get_lights(&lights)
 	intersections(rays, shapes);
-	//luminosity
+
 	viewport_to_image(mlxdata, &rays);
 	
 	mlx_put_image_to_window(mlxdata->mlx_ptr, mlxdata->win_ptr, mlxdata->img_ptr, 0, 0);
