@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/10 12:31:22 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:06:13 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_cir
 {
 	t_vct center;
 	float radius;
+	int colour;
 } t_cir;
 
 typedef struct s_shapes
@@ -88,6 +89,11 @@ typedef struct s_shapes
 	t_cir *circles;
 	//t_cyl *cylinders;
 } t_shapes;
+
+//sph_hit.c
+void sph_intersects(t_ray *ray, t_cir *sphere);
+t_vct sphere_normal(t_cir sphere, t_vct intersection_point);
+
 
 //ft_pixelput.c
 void	ft_pixelput(t_mlxdata *mlxdata, int x, int y, int colour);
@@ -116,6 +122,10 @@ float quadratic_sol(float a, float b, float c);
 //colours
 # define WHITE 0xFFFFFF
 # define BLACK 0x000000
-# define RED 0xFF0000 
+# define RED 0xFF0000
+# define GREEN 0x00FF00
+# define BLUE 0x0000FF
+
+int get_colour(float r, float g, float b, float l);
 
 #endif

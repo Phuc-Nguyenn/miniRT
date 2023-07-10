@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/10 12:37:22 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:32:41 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,15 @@ void get_shapes(t_shapes **shapes) {
 	/*basic circle (to be changed)*/
 	(*shapes)->circles[0].center = set_vct(2, 0, 15, 0);
 	(*shapes)->circles[0].radius = 2;
+	(*shapes)->circles[0].colour = RED;
 
-	(*shapes)->circles[1].center = set_vct(1, 0, 15, 0);
-	(*shapes)->circles[1].radius = 2;
+	(*shapes)->circles[1].center = set_vct(1, 0, 40, 0);
+	(*shapes)->circles[1].radius = 3;
+	(*shapes)->circles[1].colour = GREEN;
 
-	(*shapes)->circles[2].center = set_vct(-2, 0, 15, 0);
-	(*shapes)->circles[2].radius = 2;
-}
-
-/*returns a normal unit vector to a sphere*/
-t_vct sphere_normal(t_cir sphere, t_vct intersection_point){
-	t_vct normal;
-
-	normal = vct_sub(intersection_point, sphere.center);
-	normal = unit_vct(normal);
-	return(normal);
+	(*shapes)->circles[2].center = set_vct(-3, 0, 20, 0);
+	(*shapes)->circles[2].radius = 1;
+	(*shapes)->circles[2].colour = BLUE;
 }
 
 int get_colour(float r, float g, float b, float l) {
@@ -99,40 +93,12 @@ int get_colour(float r, float g, float b, float l) {
 	return(hex_val);
 }
 
-
-void sph_hit(t_ray *ray, t_cir *sphere){
-	float a;
-	float b;
-	float c;
-	a = vct_dot_prod((*ray).direction,(*ray).direction);
-	b = 2*(vct_dot_prod((*ray).start_pos,(*ray).direction)
-		- vct_dot_prod((*ray).direction,(*sphere).center));
-	c = -2 * vct_dot_prod((*sphere).center, (*ray).start_pos)
-		+ vct_dot_prod((*ray).start_pos,(*ray).start_pos)
-		+ vct_dot_prod((*sphere).center, (*sphere).center)
-		- ((*sphere).radius * (*sphere).radius);
-	if(discrim(a,b,c) >= 0) {
-		(*ray).parameter = quadratic_sol(a,b,c);
-		if((*ray).parameter >= 0) {
-			t_vct intersection_point = vct_scalar_prod((*ray).parameter,(*ray).direction);
-			t_vct norm = sphere_normal((*sphere), intersection_point);
-			t_vct b = vct_sub(set_vct(-7,0,4,0), intersection_point);
-			float cos_theta = vct_dot_prod(norm, b)/(vct_magnitude(norm)*vct_magnitude(b));
-			cos_theta = fmax(cos_theta, 0);
-			cos_theta = 1-acos(cos_theta)/(M_PI/2);
-			float luminosity = 1;
-			luminosity = cos_theta;
-			(*ray).colour = get_colour(1,1,1,luminosity);
-		}
-	}
-}
-
 /*calculates the intersections between ray and object*/
 void intersections(t_ray *rays, t_shapes *shapes)
 {
 	for(int i = 0; i < W_WIDTH * W_HEIGHT; i++) {
-		for(int s = 0; s < 3; s++)
-			sph_hit(&rays[i], &(shapes->circles[s]));
+		for(int s = 0; s < 3; s++) //changes num of sph
+			sph_intersects(&rays[i], &(shapes->circles[s]));
 	}
 }
 
@@ -148,8 +114,8 @@ void viewport_to_image(t_mlxdata *mlxdata, t_ray **rays) {
 
 void get_lights(t_light **lights) {
 	*lights = malloc(sizeof(t_light) * 1);
-	(*lights)[0].pos = set_vct(-3, 0, 15, 0);
-	(*lights)[0].lume = 0.5;
+	(*lights)[0].pos = set_vct(3, 0, 15, 0);
+	(*lights)[0].lume = 1;
 }
 
 void miniRT(t_mlxdata *mlxdata) {
@@ -163,7 +129,7 @@ void miniRT(t_mlxdata *mlxdata) {
 	viewport_init(&camera);
 	rays_init(&camera, &rays);
 	get_shapes(&shapes);
-	//get_lights(&lights)
+	get_lights(&lights);
 	intersections(rays, shapes);
 
 	viewport_to_image(mlxdata, &rays);

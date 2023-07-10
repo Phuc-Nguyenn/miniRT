@@ -6,6 +6,7 @@ files = main.c\
 	image.c\
 	ft_pixelput.c\
 	vct_operations.c\
+	sph_hit.c\
 	
 SRCS = $(addprefix ./SRCS/, $(files))
 OBJS = $(SRCS:c=o)
