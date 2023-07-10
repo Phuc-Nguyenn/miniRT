@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/10 13:32:41 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:45:01 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void viewport_init(t_camera *camera) {
 		for(int x = -(W_WIDTH/2); x < W_WIDTH/2; x++) {
 			pixel_dimension = 2*camera->projection_distance*tan((camera->fov/2)*((M_PI/180.0)))/W_WIDTH;
 			camera->viewport[i].x = camera->view_point.x + x * pixel_dimension;
-			camera->viewport[i].y = camera->view_point.y + y * pixel_dimension;
+			camera->viewport[i].y = camera->view_point.y - y * pixel_dimension;
 			camera->viewport[i].z = camera->view_point.z + camera->projection_distance;
 			//printf("[x,y,z] = %f, %f, %f\n", camera->viewport[i].x, camera->viewport[i].y, camera->viewport[i].z);
 			i++;
@@ -64,16 +64,16 @@ void get_shapes(t_shapes **shapes) {
 	*shapes = malloc(sizeof(t_shapes) * 1);
 	(*shapes)->circles = malloc(sizeof(t_cir) * 3);
 	/*basic circle (to be changed)*/
-	(*shapes)->circles[0].center = set_vct(2, 0, 15, 0);
+	(*shapes)->circles[0].center = set_vct(-3, -2, 40, 0);
 	(*shapes)->circles[0].radius = 2;
 	(*shapes)->circles[0].colour = RED;
 
-	(*shapes)->circles[1].center = set_vct(1, 0, 40, 0);
-	(*shapes)->circles[1].radius = 3;
+	(*shapes)->circles[1].center = set_vct(0, -2, 20, 0);
+	(*shapes)->circles[1].radius = 2;
 	(*shapes)->circles[1].colour = GREEN;
 
-	(*shapes)->circles[2].center = set_vct(-3, 0, 20, 0);
-	(*shapes)->circles[2].radius = 1;
+	(*shapes)->circles[2].center = set_vct(3, -2, 25, 0);
+	(*shapes)->circles[2].radius = 2;
 	(*shapes)->circles[2].colour = BLUE;
 }
 

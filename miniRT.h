@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/10 13:06:13 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:26:43 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_ray
 {
 	t_vct start_pos;
 	t_vct direction;
+
+	float mag;
 	float parameter;
 	float colour;
 } t_ray;
