@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/08 23:17:48 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/10 12:32:52 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void get_shapes(t_shapes **shapes) {
 	*shapes = malloc(sizeof(t_shapes) * 1);
 	(*shapes)->circles = malloc(sizeof(t_cir));
 	/*basic circle (to be changed)*/
-	(*shapes)->circles[0].center = set_vct(0, 0, 15, 0);
+	(*shapes)->circles[0].center = set_vct(-1, 0, 15, 0);
 	(*shapes)->circles[0].radius = 2;
 }
 
@@ -93,6 +93,34 @@ int get_colour(float r, float g, float b, float l) {
 	return(hex_val);
 }
 
+
+void sph_hit(t_ray *ray, t_cir *sphere){
+	float a;
+	float b;
+	float c;
+	a = vct_dot_prod((*ray).direction,(*ray).direction);
+	b = 2*(vct_dot_prod((*ray).start_pos,(*ray).direction)
+		- vct_dot_prod((*ray).direction,(*sphere).center));
+	c = -2 * vct_dot_prod((*sphere).center, (*ray).start_pos)
+		+ vct_dot_prod((*ray).start_pos,(*ray).start_pos)
+		+ vct_dot_prod((*sphere).center, (*sphere).center)
+		- ((*sphere).radius * (*sphere).radius);
+	if(discrim(a,b,c) >= 0) {
+		(*ray).parameter = quadratic_sol(a,b,c);
+		if((*ray).parameter >= 0) {
+			t_vct intersection_point = vct_scalar_prod((*ray).parameter,(*ray).direction);
+			t_vct norm = sphere_normal((*sphere), intersection_point);
+			t_vct b = vct_sub(set_vct(-7,0,4,0), intersection_point);
+			float cos_theta = vct_dot_prod(norm, b)/(vct_magnitude(norm)*vct_magnitude(b));
+			cos_theta = fmax(cos_theta, 0);
+			cos_theta = 1-acos(cos_theta)/(M_PI/2);
+			float luminosity = 1;
+			luminosity = cos_theta;
+			(*ray).colour = get_colour(1,1,1,luminosity);
+		}
+	}
+}
+
 /*calculates the intersections between ray and object*/
 void intersections(t_ray *rays, t_shapes *shapes)
 {
@@ -101,30 +129,7 @@ void intersections(t_ray *rays, t_shapes *shapes)
 	float c;
 	int sph_idx = 0;
 	for(int i = 0; i < W_WIDTH * W_HEIGHT; i++) {
-		a = vct_dot_prod(rays[i].direction,rays[i].direction);
-		b = 2*(vct_dot_prod(rays[i].start_pos,rays[i].direction)
-			- vct_dot_prod(rays[i].direction,shapes->circles[sph_idx].center));
-		c = -2 * vct_dot_prod(shapes->circles[sph_idx].center, rays[i].start_pos)
-			+ vct_dot_prod(rays[i].start_pos,rays[i].start_pos)
-			+ vct_dot_prod(shapes->circles[sph_idx].center, shapes->circles[0].center)
-			- (shapes->circles[0].radius * shapes->circles[0].radius);
-		if(discrim(a,b,c) >= 0) {
-			rays[i].parameter = quadratic_sol(a,b,c);
-			if(rays[i].parameter >= 0) {
-				t_vct intersection_point = vct_scalar_prod(rays[i].parameter,rays[i].direction);
-				t_vct norm = sphere_normal(shapes->circles[sph_idx], intersection_point);
-				t_vct b = vct_sub(set_vct(-9,0,4,0), intersection_point);
-				float cos_theta = vct_dot_prod(norm, b)/(vct_magnitude(norm)*vct_magnitude(b));
-				if(cos_theta <= 0)
-					cos_theta = 0;
-				cos_theta = 1-acos(cos_theta)/(M_PI/2);
-				float luminosity = 1-vct_magnitude(vct_sub(set_vct(-9,0,4,0), intersection_point))/TRACE_DISTANCE;
-				if(luminosity < 0)
-					luminosity = 0;
-				luminosity *= cos_theta;
-				rays[i].colour = get_colour(1,1,1,luminosity);
-			}
-		}
+		sph_hit(&rays[i], &(shapes->circles[sph_idx]));
 		i++;
 	}
 }
