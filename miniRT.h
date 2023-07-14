@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/10 16:26:43 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:25:24 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_ray
 	float mag;
 	float parameter;
 	float colour;
+	float norm;
 } t_ray;
 
 //lume is the light's luminosity 0<=lume<=1
@@ -85,15 +86,21 @@ typedef struct s_cir
 	int colour;
 } t_cir;
 
+typedef struct s_pln{
+	t_vct point;
+	t_vct norm;
+	int colour;
+} t_pln;
+
 typedef struct s_shapes
 {
-	//t_pln *planes;
+	t_pln *planes;
 	t_cir *circles;
 	//t_cyl *cylinders;
 } t_shapes;
 
 //sph_hit.c
-void sph_intersects(t_ray *ray, t_cir *sphere);
+void sph_intersects(t_ray *ray, t_cir *sphere, t_light *lights);
 t_vct sphere_normal(t_cir sphere, t_vct intersection_point);
 
 

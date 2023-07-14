@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:50:46 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/10 17:15:26 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/14 18:56:13 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ t_vct sphere_normal(t_cir sphere, t_vct intersection_point){
 	return(normal);
 }
 
-float calc_colour(t_ray ray, t_cir sphere){
+float calc_sph_colour(t_ray ray, t_cir sphere, t_light *lights){
 	t_vct intsct_pt = vct_scalar_prod(ray.parameter,ray.direction);
 	t_vct norm = sphere_normal(sphere, intsct_pt);
-	t_vct b = vct_sub(set_vct(-8,4,10,0), intsct_pt);
-	float cos_theta = vct_dot_prod(norm, b)/(vct_magnitude(norm)*vct_magnitude(b));
+	t_vct to_lgt = vct_sub(lights[0].pos, intsct_pt);
+	float cos_theta = vct_dot_prod(norm, to_lgt)/(vct_magnitude(norm)*vct_magnitude(to_lgt));
 	cos_theta = fmax(cos_theta, 0);
 	cos_theta = 1-acos(cos_theta)/(M_PI/2);
 	float luminosity = 1;
@@ -33,7 +33,11 @@ float calc_colour(t_ray ray, t_cir sphere){
 	return(luminosity);
 }
 
-void sph_intersects(t_ray *ray, t_cir *sphere){
+/*this function calculates whether a ray intersects a sphere
+the ray keeps track of the closest intersection and the intersection
+that gives it the lowest magnitude (closest intersection) gives it 
+the colour*/
+void sph_intersects(t_ray *ray, t_cir *sphere, t_light *lights){
 	float a = vct_dot_prod((*ray).direction,(*ray).direction);
 	float b = 2*(vct_dot_prod((*ray).start_pos,(*ray).direction)
 		- vct_dot_prod((*ray).direction,(*sphere).center));
@@ -45,7 +49,7 @@ void sph_intersects(t_ray *ray, t_cir *sphere){
 		(*ray).parameter = quadratic_sol(a,b,c);
 		if((*ray).parameter >= 0) {
 			t_vct intsct_pt = vct_scalar_prod((*ray).parameter,(*ray).direction);
-			float luminosity = calc_colour(*ray, *sphere);
+			float luminosity = calc_sph_colour(*ray, *sphere, lights);
 			t_vct tmp = vct_sub((*ray).start_pos, intsct_pt);
 			float mag = vct_magnitude(tmp);
 			if(mag < ray->mag || ray->mag == 0) {
