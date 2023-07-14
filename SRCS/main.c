@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/14 18:56:04 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/14 20:12:02 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ void get_shapes(t_shapes **shapes) {
 	(*shapes)->circles[1].radius = 2;
 	(*shapes)->circles[1].colour = GREEN;
 
-	(*shapes)->circles[2].center = set_vct(3, -2, 25, 0);
+	(*shapes)->circles[2].center = set_vct(3, -2, 30, 0);
 	(*shapes)->circles[2].radius = 2;
 	(*shapes)->circles[2].colour = BLUE;
 
 	(*shapes)->planes = malloc(sizeof(t_pln) * 1);
 	//planes (to be changed*)
-	(*shapes)->planes[0].point = set_vct(0,-3,0,0);
+	(*shapes)->planes[0].point = set_vct(0,-5,0,0);
 	(*shapes)->planes[0].norm = set_vct(0,1,0,0);
 	(*shapes)->planes[0].colour = WHITE;
 }
@@ -124,27 +124,55 @@ void pln_intersects(t_ray *ray, t_pln *plane, t_light *lights) {
 				+ (*plane).norm.z * (*ray).direction.z;
 	float intsct_param = (D-numer)/denom;
 	if (intsct_param >= 0) {
-		(*ray).parameter = intsct_param;
-		t_vct intsct_pt = vct_scalar_prod((*ray).parameter,(*ray).direction);
-		float luminosity = calc_pln_colour((*ray), (*plane), lights);
-		t_vct tmp = vct_sub((*ray).start_pos, intsct_pt);
-		float mag = vct_magnitude(tmp);
+		t_vct intsct_pt = vct_scalar_prod(intsct_param,(*ray).direction);
+		t_ray tmp;
+		tmp.direction = ray->direction;
+		tmp.start_pos = ray->start_pos;
+		tmp.parameter = intsct_param;
+		float luminosity = calc_pln_colour(tmp, (*plane), lights);
+		float mag = vct_magnitude(vct_sub(tmp.start_pos, intsct_pt));
 		if(mag < ray->mag || ray->mag == 0) {
 			//ray->colour = sphere->colour;
 			ray->mag = mag;
 			ray->colour = get_colour(1,1,1,luminosity);
+			ray->parameter = intsct_param;
 		}
 	}
+}
+
+int in_sph_shadow(t_ray *ray, t_cir *sphere, t_light *lights) {
+	t_ray to_lgt;
+	to_lgt.start_pos = vct_scalar_prod((*ray).parameter, (*ray).direction);
+	to_lgt.direction = vct_sub(lights[0].pos, to_lgt.start_pos);
+
+	float a = vct_dot_prod(to_lgt.direction,to_lgt.direction);
+	float b = 2*(vct_dot_prod(to_lgt.start_pos,to_lgt.direction)
+		- vct_dot_prod(to_lgt.direction,(*sphere).center));
+	float c = -2 * vct_dot_prod((*sphere).center, to_lgt.start_pos)
+		+ vct_dot_prod(to_lgt.start_pos,to_lgt.start_pos)
+		+ vct_dot_prod((*sphere).center, (*sphere).center)
+		- ((*sphere).radius * (*sphere).radius);
+	if(discrim(a,b,c) >= 0) {
+		float param = quadratic_sol(a,b,c);
+		if(param > 0)
+			return(1);
+	}
+	return(0);
 }
 
 /*calculates the intersections between ray and object*/
 void intersections(t_ray *rays, t_shapes *shapes, t_light *lights)
 {
 	for(int i = 0; i < W_WIDTH * W_HEIGHT; i++) {
-		for(int s = 0; s < 3; s++) {//changes num of sph
+		for(int s = 0; s < 3; s++)//changes num of sph
 			sph_intersects(&rays[i], &(shapes->circles[s]), lights);
+		for(int p = 0; p < 1; p++)
 			pln_intersects(&rays[i], &(shapes->planes[0]), lights);
-		}
+		for(int s = 0; s < 3; s++)
+			if(in_sph_shadow(&rays[i], &(shapes->circles[s]), lights))
+				rays[i].colour = get_colour(1,1,1,BLACK);
+		//for(int p = 0; p < 1; p++)
+			//in_pln_shadow()
 	}
 }
 
@@ -160,7 +188,7 @@ void viewport_to_image(t_mlxdata *mlxdata, t_ray **rays) {
 
 void get_lights(t_light **lights) {
 	*lights = malloc(sizeof(t_light) * 1);
-	(*lights)[0].pos = set_vct(0, 10, 0, 0);
+	(*lights)[0].pos = set_vct(0, 5, 0, 0);
 	(*lights)[0].lume = 1;
 }
 

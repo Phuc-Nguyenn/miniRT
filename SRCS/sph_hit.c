@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:50:46 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/14 18:56:13 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/14 20:09:05 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,21 @@ void sph_intersects(t_ray *ray, t_cir *sphere, t_light *lights){
 		+ vct_dot_prod((*sphere).center, (*sphere).center)
 		- ((*sphere).radius * (*sphere).radius);
 	if(discrim(a,b,c) >= 0) {
-		(*ray).parameter = quadratic_sol(a,b,c);
-		if((*ray).parameter >= 0) {
-			t_vct intsct_pt = vct_scalar_prod((*ray).parameter,(*ray).direction);
-			float luminosity = calc_sph_colour(*ray, *sphere, lights);
-			t_vct tmp = vct_sub((*ray).start_pos, intsct_pt);
-			float mag = vct_magnitude(tmp);
+		float intsct_param = quadratic_sol(a,b,c);
+		if(intsct_param >= 0) {
+			t_vct intsct_pt = vct_scalar_prod(intsct_param,(*ray).direction);
+			t_ray tmp;
+			tmp.direction = ray->direction;
+			tmp.start_pos = ray->start_pos;
+			tmp.parameter = intsct_param;
+			float luminosity = calc_sph_colour(tmp, (*sphere), lights);
+			float mag = vct_magnitude(vct_sub(tmp.start_pos, intsct_pt));
 			if(mag < ray->mag || ray->mag == 0) {
-				ray->colour = get_colour(1,1,1,luminosity);
 				//ray->colour = sphere->colour;
 				ray->mag = mag;
-			}
+				ray->colour = get_colour(1,1,1,luminosity);
+				ray->parameter = intsct_param;
+				}
 		}
 	}
 }
