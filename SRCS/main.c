@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/14 20:12:02 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/14 20:23:03 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int initialise_mlx(t_mlxdata *mlxdata) {
 void camera_init(t_camera *camera) {
 	camera->view_point = set_vct(0, 0, 0, 0);
 	camera->orientation = set_vct(0, 0, 1, 0);
-	camera->fov = 53;
+	camera->fov = 89;
 	camera->projection_distance = 5;
 }
 
@@ -64,11 +64,11 @@ void get_shapes(t_shapes **shapes) {
 	*shapes = malloc(sizeof(t_shapes) * 2);
 	(*shapes)->circles = malloc(sizeof(t_cir) * 3);
 	/*basic circle (to be changed)*/
-	(*shapes)->circles[0].center = set_vct(-3, -2, 40, 0);
+	(*shapes)->circles[0].center = set_vct(-2, -2, 40, 0);
 	(*shapes)->circles[0].radius = 2;
 	(*shapes)->circles[0].colour = RED;
 
-	(*shapes)->circles[1].center = set_vct(0, -2, 20, 0);
+	(*shapes)->circles[1].center = set_vct(-3, 1, 18, 0);
 	(*shapes)->circles[1].radius = 2;
 	(*shapes)->circles[1].colour = GREEN;
 
@@ -78,7 +78,7 @@ void get_shapes(t_shapes **shapes) {
 
 	(*shapes)->planes = malloc(sizeof(t_pln) * 1);
 	//planes (to be changed*)
-	(*shapes)->planes[0].point = set_vct(0,-5,0,0);
+	(*shapes)->planes[0].point = set_vct(0,-4,0,0);
 	(*shapes)->planes[0].norm = set_vct(0,1,0,0);
 	(*shapes)->planes[0].colour = WHITE;
 }
@@ -134,6 +134,7 @@ void pln_intersects(t_ray *ray, t_pln *plane, t_light *lights) {
 		if(mag < ray->mag || ray->mag == 0) {
 			//ray->colour = sphere->colour;
 			ray->mag = mag;
+			luminosity = fmax(luminosity, AMBIENT);
 			ray->colour = get_colour(1,1,1,luminosity);
 			ray->parameter = intsct_param;
 		}
@@ -170,7 +171,7 @@ void intersections(t_ray *rays, t_shapes *shapes, t_light *lights)
 			pln_intersects(&rays[i], &(shapes->planes[0]), lights);
 		for(int s = 0; s < 3; s++)
 			if(in_sph_shadow(&rays[i], &(shapes->circles[s]), lights))
-				rays[i].colour = get_colour(1,1,1,BLACK);
+				rays[i].colour = get_colour(1,1,1,AMBIENT);
 		//for(int p = 0; p < 1; p++)
 			//in_pln_shadow()
 	}
@@ -188,7 +189,7 @@ void viewport_to_image(t_mlxdata *mlxdata, t_ray **rays) {
 
 void get_lights(t_light **lights) {
 	*lights = malloc(sizeof(t_light) * 1);
-	(*lights)[0].pos = set_vct(0, 5, 0, 0);
+	(*lights)[0].pos = set_vct(3, 5, 15, 0);
 	(*lights)[0].lume = 1;
 }
 

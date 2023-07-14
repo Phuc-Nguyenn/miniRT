@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:50:46 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/14 20:09:05 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/14 20:20:26 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void sph_intersects(t_ray *ray, t_cir *sphere, t_light *lights){
 			if(mag < ray->mag || ray->mag == 0) {
 				//ray->colour = sphere->colour;
 				ray->mag = mag;
+				luminosity = fmax(luminosity, AMBIENT);
 				ray->colour = get_colour(1,1,1,luminosity);
 				ray->parameter = intsct_param;
 				}
