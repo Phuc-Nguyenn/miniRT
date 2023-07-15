@@ -89,3 +89,11 @@ float quadratic_sol(float a, float b, float c) {
 	sol = ((-1*b) - sqrt(disc))/(2*a);
 	return(sol);
 }
+
+float quadratic_sol2(float a, float b, float c) {
+	float disc;
+	float sol;
+	disc = discrim(a,b,c);
+	sol = ((-1*b) + sqrt(disc))/(2*a);
+	return(sol);
+}

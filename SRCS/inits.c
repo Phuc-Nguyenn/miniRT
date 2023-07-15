@@ -6,11 +6,11 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:42:21 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/15 11:42:47 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/15 15:45:50 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "../miniRT.h"
 
 int initialise_mlx(t_mlxdata *mlxdata) {
 	mlxdata->mlx_ptr = mlx_init();
