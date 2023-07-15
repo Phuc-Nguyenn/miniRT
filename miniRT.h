@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/14 20:14:57 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/15 11:45:23 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,25 @@ typedef struct s_shapes
 	//t_cyl *cylinders;
 } t_shapes;
 
-//sph_hit.c
+//get_infos.c
+void get_lights(t_light **lights);
+void get_shapes(t_shapes **shapes);
+
+
+//inits.c
+void rays_init(t_camera *camera, t_ray **rays);
+void viewport_init(t_camera *camera);
+void camera_init(t_camera *camera);
+int initialise_mlx(t_mlxdata *mlxdata);
+
+
+//sph_intersects.c
 void sph_intersects(t_ray *ray, t_cir *sphere, t_light *lights);
 t_vct sphere_normal(t_cir sphere, t_vct intersection_point);
+
+//pln_intersects.c
+float calc_pln_colour(t_ray ray, t_pln plane, t_light *lights);
+void pln_intersects(t_ray *ray, t_pln *plane, t_light *lights);
 
 
 //ft_pixelput.c

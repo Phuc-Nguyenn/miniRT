@@ -6,11 +6,28 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 14:18:48 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/07 16:46:25 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/15 11:47:32 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
+
+/*converts decimal representation of r g b and l to a hex colour*/
+int get_colour(float r, float g, float b, float l) {
+	int hex_val;
+	int red;
+	int grn;
+	int blu;
+	r *= l;
+	g *= l;
+	b *= l;
+
+	red = (int)(r*255);
+	grn = (int)(g*255);
+	blu = (int)(b*255);
+	hex_val = (red << 16) | (grn << 8) | blu;
+	return(hex_val);
+}
 
 //changes the colour of a pixel in the pixel string to the colour
 //the pixel is a 32 bit pixel
