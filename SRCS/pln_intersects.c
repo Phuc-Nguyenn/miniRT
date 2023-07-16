@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:37:16 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 14:56:20 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 18:55:03 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ void pln_intersects(t_ray *ray, t_pln *plane, t_light *lights) {
 		tmp.direction = ray->direction;
 		tmp.start_pos = ray->start_pos;
 		tmp.parameter = intsct_param;
-		float luminosity = calc_pln_colour(tmp, (*plane), lights);
 		float mag = vct_magnitude(vct_sub(tmp.start_pos, intsct_pt));
+		float distance_weight = 1/(0.05*mag+1);
+		float angle_weight = calc_pln_colour(tmp, (*plane), lights);
+		float luminosity = distance_weight*0.95 + angle_weight*0.05;
 		if(mag < ray->mag || ray->mag == 0) {
 			//ray->colour = sphere->colour;
 			ray->mag = mag;
