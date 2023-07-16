@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/15 18:10:08 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 14:02:25 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int in_sph_shadow(t_ray *ray, t_cir *sphere, t_light *lights) {
 	t_ray to_lgt;
 	to_lgt.start_pos = vct_scalar_prod((*ray).parameter, (*ray).direction);
 	to_lgt.direction = vct_sub(lights[0].pos, to_lgt.start_pos);
+	to_lgt.mag = vct_magnitude(to_lgt.direction);
 
 	float a = vct_dot_prod(to_lgt.direction,to_lgt.direction);
 	float b = 2*(vct_dot_prod(to_lgt.start_pos,to_lgt.direction)
@@ -40,8 +41,8 @@ int in_sph_shadow(t_ray *ray, t_cir *sphere, t_light *lights) {
 	if(discrim(a,b,c) >= 0) {
 		float param = quadratic_sol(a,b,c);
 		//float param2 = quadratic_sol2(a,b,c);
-		to_lgt.direction = vct_scalar_prod(param, to_lgt.direction);
-		if(param > 0)// && !intsct_current(to_lgt, sphere))
+		float mag_to_cir = vct_magnitude(vct_scalar_prod(param, to_lgt.direction));
+		if(param > 0 && to_lgt.mag > mag_to_cir)// && !intsct_current(to_lgt, sphere))
 			return(1);
 	}
 	return(0);
