@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 14:02:25 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 16:05:40 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int intsct_current(t_ray to_lgt, t_cir *sphere) {
 	return(0);
 }
 
-int in_sph_shadow(t_ray *ray, t_cir *sphere, t_light *lights) {
+int in_sph_shadow(t_ray *ray, t_cir *sphere, t_light *lights, float *shdw_distance) {
 	t_ray to_lgt;
 	to_lgt.start_pos = vct_scalar_prod((*ray).parameter, (*ray).direction);
 	to_lgt.direction = vct_sub(lights[0].pos, to_lgt.start_pos);
@@ -41,20 +41,28 @@ int in_sph_shadow(t_ray *ray, t_cir *sphere, t_light *lights) {
 	if(discrim(a,b,c) >= 0) {
 		float param = quadratic_sol(a,b,c);
 		//float param2 = quadratic_sol2(a,b,c);
-		float mag_to_cir = vct_magnitude(vct_scalar_prod(param, to_lgt.direction));
-		if(param > 0 && to_lgt.mag > mag_to_cir)// && !intsct_current(to_lgt, sphere))
+		*shdw_distance = vct_magnitude(vct_scalar_prod(param, to_lgt.direction));
+		if(param > 0.0001 && to_lgt.mag > *shdw_distance)
 			return(1);
 	}
 	return(0);
 }
 
+int colour_desat(int color, float desat_amt);
+
 /*calculates whether a particular ray should be in shadow and change
 its colour to ambient accordingly*/
-void shadows(t_ray *rays, t_shapes *shapes, t_light *lights){
+void shadows(t_ray *rays, t_shapes *shapes, t_light *lights) {
+	float shdw_distance;
 	for(int i = 0; i < W_WIDTH * W_HEIGHT; i++) {
 		for(int s = 0; s < 3; s++)
-			if(in_sph_shadow(&rays[i], &(shapes->circles[s]), lights))
-				rays[i].colour = get_colour(1,1,1,AMBIENT);
+			if(in_sph_shadow(&rays[i], &(shapes->circles[s]), lights, &shdw_distance))
+			{
+				float dist_factor = fmax(0,fmin(1,5/(0.69*shdw_distance+1)));
+				rays[i].colour = colour_add(rays[i].colour, round(-69 * dist_factor), 
+					round(-69 * dist_factor), round(-69 * dist_factor), 0);
+				rays[i].colour = colour_desat(rays[i].colour, 0.69);
+			}
 		//for(int p = 0; p < 1; p++)
 			//in_pln_shadow()
 	}
@@ -66,8 +74,8 @@ void intersections(t_ray *rays, t_shapes *shapes, t_light *lights)
 	for(int i = 0; i < W_WIDTH * W_HEIGHT; i++) {
 		for(int s = 0; s < 3; s++)//changes num of sph
 			sph_intersects(&rays[i], &(shapes->circles[s]), lights);
-		for(int p = 0; p < 1; p++) //num of planes
-			pln_intersects(&rays[i], &(shapes->planes[0]), lights);
+		for(int p = 0; p < 3; p++) //num of planes
+			pln_intersects(&rays[i], &(shapes->planes[p]), lights);
 	}
 }
 

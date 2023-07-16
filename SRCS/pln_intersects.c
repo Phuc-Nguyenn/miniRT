@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:37:16 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/15 11:39:25 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 14:56:20 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void pln_intersects(t_ray *ray, t_pln *plane, t_light *lights) {
 			//ray->colour = sphere->colour;
 			ray->mag = mag;
 			luminosity = fmax(luminosity, AMBIENT);
-			ray->colour = get_colour(1,1,1,luminosity);
+			ray->colour = colour_factor(plane->colour,luminosity);
 			ray->parameter = intsct_param;
 		}
 	}

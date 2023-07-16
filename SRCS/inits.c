@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:42:21 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/15 15:45:50 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 16:06:17 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int initialise_mlx(t_mlxdata *mlxdata) {
 void camera_init(t_camera *camera) {
 	camera->view_point = set_vct(0, 0, 0, 0);
 	camera->orientation = set_vct(0, 0, 1, 0);
-	camera->fov = 89;
+	camera->fov = 53;
 	camera->projection_distance = 5;
 }
 

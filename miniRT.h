@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/15 18:10:52 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 14:54:03 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,9 @@ t_vct sphere_normal(t_cir sphere, t_vct intersection_point);
 //pln_intersects.c
 float calc_pln_colour(t_ray ray, t_pln plane, t_light *lights);
 void pln_intersects(t_ray *ray, t_pln *plane, t_light *lights);
-
+int colour_add(int colour, int r, int g, int b, int a);
+int colour_factor(int colour, float factor);
+int get_colour_dec(float r, float g, float b, float l);
 
 //ft_pixelput.c
 void	ft_pixelput(t_mlxdata *mlxdata, int x, int y, int colour);
@@ -151,7 +153,7 @@ float quadratic_sol2(float a, float b, float c);
 # define RED 0xFF0000
 # define GREEN 0x00FF00
 # define BLUE 0x0000FF
-# define AMBIENT 0.1
+# define AMBIENT 0.05
 int get_colour(float r, float g, float b, float l);
 
 #endif
