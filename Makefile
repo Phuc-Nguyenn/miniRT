@@ -10,6 +10,7 @@ files = main.c\
 	sph_intersects.c\
 	inits.c\
 	get_infos.c\
+	colour.c\
 	
 	
 SRCS = $(addprefix ./SRCS/, $(files))

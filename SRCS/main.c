@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 16:05:40 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 17:23:56 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int in_sph_shadow(t_ray *ray, t_cir *sphere, t_light *lights, float *shdw_distan
 	return(0);
 }
 
-int colour_desat(int color, float desat_amt);
 
 /*calculates whether a particular ray should be in shadow and change
 its colour to ambient accordingly*/
@@ -58,10 +57,11 @@ void shadows(t_ray *rays, t_shapes *shapes, t_light *lights) {
 		for(int s = 0; s < 3; s++)
 			if(in_sph_shadow(&rays[i], &(shapes->circles[s]), lights, &shdw_distance))
 			{
-				float dist_factor = fmax(0,fmin(1,5/(0.69*shdw_distance+1)));
+				float dist_factor = fmax(0,fmin(1,5/(0.5*shdw_distance+1)));
 				rays[i].colour = colour_add(rays[i].colour, round(-69 * dist_factor), 
 					round(-69 * dist_factor), round(-69 * dist_factor), 0);
 				rays[i].colour = colour_desat(rays[i].colour, 0.69);
+				rays[i].colour = shdw_adjust_lume(rays[i].colour);
 			}
 		//for(int p = 0; p < 1; p++)
 			//in_pln_shadow()

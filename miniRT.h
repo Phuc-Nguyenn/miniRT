@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 14:54:03 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 17:23:40 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,12 @@ int get_colour_dec(float r, float g, float b, float l);
 void	ft_pixelput(t_mlxdata *mlxdata, int x, int y, int colour);
 void	ft_translatedput(t_mlxdata *mlxdata, int x, int y, int colour);
 
+//colour.c
+int get_colour_dec(float r, float g, float b, float l);
+int colour_factor(int colour, float factor);
+int colour_add(int colour, int r, int g, int b, int a);
+int colour_desat(int colour, float desat_amt);
+
 //main.c
 int initialise_mlx(t_mlxdata *mlxdata);
 void shadows(t_ray *rays, t_shapes *shapes, t_light *lights);
@@ -154,6 +160,5 @@ float quadratic_sol2(float a, float b, float c);
 # define GREEN 0x00FF00
 # define BLUE 0x0000FF
 # define AMBIENT 0.05
-int get_colour(float r, float g, float b, float l);
 
 #endif
