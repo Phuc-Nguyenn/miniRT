@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 17:23:56 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 18:08:00 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void shadows(t_ray *rays, t_shapes *shapes, t_light *lights) {
 			if(in_sph_shadow(&rays[i], &(shapes->circles[s]), lights, &shdw_distance))
 			{
 				float dist_factor = fmax(0,fmin(1,5/(0.5*shdw_distance+1)));
-				rays[i].colour = colour_add(rays[i].colour, round(-69 * dist_factor), 
-					round(-69 * dist_factor), round(-69 * dist_factor), 0);
+				rays[i].colour = colour_add(rays[i].colour, round(-60 * dist_factor), 
+					round(-60 * dist_factor), round(-60 * dist_factor), 0);
 				rays[i].colour = colour_desat(rays[i].colour, 0.69);
 				rays[i].colour = shdw_adjust_lume(rays[i].colour);
 			}
@@ -74,7 +74,7 @@ void intersections(t_ray *rays, t_shapes *shapes, t_light *lights)
 	for(int i = 0; i < W_WIDTH * W_HEIGHT; i++) {
 		for(int s = 0; s < 3; s++)//changes num of sph
 			sph_intersects(&rays[i], &(shapes->circles[s]), lights);
-		for(int p = 0; p < 3; p++) //num of planes
+		for(int p = 0; p < 4; p++) //num of planes
 			pln_intersects(&rays[i], &(shapes->planes[p]), lights);
 	}
 }

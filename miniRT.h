@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 17:23:40 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 17:42:43 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int get_colour_dec(float r, float g, float b, float l);
 int colour_factor(int colour, float factor);
 int colour_add(int colour, int r, int g, int b, int a);
 int colour_desat(int colour, float desat_amt);
+int shdw_adjust_lume(int colour);
 
 //main.c
 int initialise_mlx(t_mlxdata *mlxdata);

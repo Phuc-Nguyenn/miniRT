@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:18:28 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 17:31:16 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 18:01:29 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int shdw_adjust_lume(int colour) {
     int b = colour & 0xff;
 
 	float ave_lume = (r+g+b)/3;
-
+	float factor = fmin(1,fmax(0,atan(-0.003*(ave_lume-256))));
+	//printf("%f	", factor);
+	colour = colour_factor(colour, factor);
+	return(colour);
 }
 
 int colour_desat(int colour, float desat_amt) {

@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:44:11 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 17:05:10 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/16 18:09:56 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,22 @@ void get_shapes(t_shapes **shapes) {
 	(*shapes)->circles[2].radius = 2;
 	(*shapes)->circles[2].colour = 0x6c5b7b;
 
-	(*shapes)->planes = malloc(sizeof(t_pln) * 3);
+	(*shapes)->planes = malloc(sizeof(t_pln) * 4);
 	//planes (to be changed*)
-	(*shapes)->planes[0].point = set_vct(0,-2,0,0);
-	(*shapes)->planes[0].norm = set_vct(0,1,0,0);
-	(*shapes)->planes[0].colour = 0xd77a61;
-	
-	(*shapes)->planes[1].point = set_vct(-7,0,0,0);
-	(*shapes)->planes[1].norm = set_vct(1,0,0,0);
-	(*shapes)->planes[1].colour = 0xd77a61;
 
-	(*shapes)->planes[2].point = set_vct(7,0,0,0);
+	(*shapes)->planes[0].point = set_vct(0,0,100,0);
+	(*shapes)->planes[0].norm = set_vct(2,3,1,0);
+	(*shapes)->planes[0].colour = 0xd77a61;
+
+	(*shapes)->planes[1].point = set_vct(0,-2,0,0);
+	(*shapes)->planes[1].norm = set_vct(0,1,0,0);
+	(*shapes)->planes[1].colour = 0xd77a61;
+	
+	(*shapes)->planes[2].point = set_vct(-7,0,0,0);
 	(*shapes)->planes[2].norm = set_vct(1,0,0,0);
 	(*shapes)->planes[2].colour = 0xd77a61;
+
+	(*shapes)->planes[3].point = set_vct(7,0,0,0);
+	(*shapes)->planes[3].norm = set_vct(1,0,0,0);
+	(*shapes)->planes[3].colour = 0xd77a61;
 }
