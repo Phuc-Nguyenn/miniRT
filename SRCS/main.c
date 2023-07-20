@@ -6,7 +6,7 @@
 /*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 13:54:29 by tytang           ###   ########.fr       */
+/*   Updated: 2023/07/20 17:41:13 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,25 +99,42 @@ void miniRT(t_mlxdata *mlxdata) {
 
 	clear_screen(mlxdata);
 	camera_init(&camera, mlxdata);
+    printf("finished camera_init\n");
+
 	viewport_init(&camera);
-	rays_init(&camera, &rays);
+    rays_init(&camera, &rays);
+    printf("finished rays_init\n");
+
 	get_shapes(&shapes, mlxdata);
+    printf("finished get_shapes\n");
+
 	get_lights(&lights, mlxdata);
+    printf("finished get_lights\n");
+
 	intersections(rays, shapes, lights);
 	shadows(rays, shapes, lights);
+    printf("finished shadows\n");
+
 
 	viewport_to_image(mlxdata, &rays);
 	
 	mlx_put_image_to_window(mlxdata->mlx_ptr, mlxdata->win_ptr, mlxdata->img_ptr, 0, 0);
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
 	t_mlxdata mlxdata;
 	
 	if(initialise_mlx(&mlxdata) == -1)
 		ft_printf("minilibx structure initialisation failed");
-	miniRT(&mlxdata);
+    valid_parse(argc, argv, &mlxdata);
+	printf("finished valid_parse\n");
+    miniRT(&mlxdata);
+	printf("finished miniRT\n");
 	mlx_loop(mlxdata.mlx_ptr);
+    //miniRT(&mlxdata);
+    //miniRT(&mlxdata);
+    //miniRT(&mlxdata);
+
 	return(0);
 }

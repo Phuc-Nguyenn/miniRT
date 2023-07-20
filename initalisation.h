@@ -24,10 +24,10 @@ typedef struct s_plane_values
 typedef struct s_cylinder_values
 {
     // cylinder - cy
-    int *cylinder_xyz;
-    int *cylinder_norm_vect;
-    int cylinder_diameter;
-    int cylinder_height;
+    float *cylinder_xyz;
+    float *cylinder_norm_vect;
+    float cylinder_diameter;
+    float cylinder_height;
     int *cylinder_rgb;
 }   t_cylinder_values;
 
@@ -40,11 +40,11 @@ typedef struct s_inital_var
     int Ambient_light_ratio;
     int *Ambient_lightning_rgb;
     // Cameral - C
-    int *camera_xyz;
-    int *camera_orientation;
+    float *camera_xyz;
+    float *camera_orientation;
     int camera_fov;
     // Light L
-    int *light_xyz;
+    float *light_xyz;
     int light_brightness;
     int *light_rgb;
 

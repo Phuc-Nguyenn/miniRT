@@ -46,6 +46,7 @@ SRCS =	ft_isalnum.c\
 		ft_toupper.c\
 		ft_strrchr.c\
 		ft_putnstr_fd.c\
+		ft_atoi.c\
 
 OBJS = $(SRCS:c=o)
 

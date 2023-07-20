@@ -6,7 +6,7 @@
 /*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 15:07:14 by tytang           ###   ########.fr       */
+/*   Updated: 2023/07/20 16:01:36 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ float **create_rot_mat_z(float angle);
 void rotate_x(float angle, t_mlxdata *mlxdata);
 void rotate_y(float angle, t_mlxdata *mlxdata);
 void rotate_z(float angle, t_mlxdata *mlxdata);
-float *dot_product_plane(float **rot_mat, int *src_mat);
+float *dot_product_plane(float **rot_mat, float *src_mat);
 
 
 //colours

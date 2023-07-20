@@ -6,7 +6,7 @@
 /*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 13:27:17 by tytang            #+#    #+#             */
-/*   Updated: 2023/07/20 15:06:51 by tytang           ###   ########.fr       */
+/*   Updated: 2023/07/20 17:15:24 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,20 @@ void initalise_lighting(char **current_string, t_mlxdata *mlxdata)
         printf("Ambient lightning, %s, %s\n", current_string[1], current_string[2]);
         mlxdata->initial_struct->Ambient_light_ratio = ft_atoi(current_string[1]);
         char **Ambient_lightning_rgb = ft_split(current_string[2], ',');
-        mlxdata->initial_struct->Ambient_lightning_rgb[0] = ft_atoi(Ambient_lightning_rgb[0]);
-        mlxdata->initial_struct->Ambient_lightning_rgb[1] = ft_atoi(Ambient_lightning_rgb[1]);
-        mlxdata->initial_struct->Ambient_lightning_rgb[2] = ft_atoi(Ambient_lightning_rgb[2]);
+        int Ambient_lightning_rgb_int_arr[3];
+        Ambient_lightning_rgb_int_arr[0] = ft_atoi(Ambient_lightning_rgb[0]);
+        Ambient_lightning_rgb_int_arr[1] = ft_atoi(Ambient_lightning_rgb[1]);
+        Ambient_lightning_rgb_int_arr[2] = ft_atoi(Ambient_lightning_rgb[2]);
+        mlxdata->initial_struct->Ambient_lightning_rgb = Ambient_lightning_rgb_int_arr;
+        printf("Ambient lightning rgb, %s, %s, %s\n",Ambient_lightning_rgb[0], Ambient_lightning_rgb[1], Ambient_lightning_rgb[2]);
     }
     else if (ft_strcmp(current_string[0], "L") == 0)
     {
         printf("Light, %s, %s, %s\n", current_string[1], current_string[2], current_string[3]);
         char **light_xyz = ft_split(current_string[1], ',');
-        mlxdata->initial_struct->light_xyz[0] = ft_atoi(light_xyz[0]);
-        mlxdata->initial_struct->light_xyz[1] = ft_atoi(light_xyz[1]);
-        mlxdata->initial_struct->light_xyz[2] = ft_atoi(light_xyz[2]);
+        mlxdata->initial_struct->light_xyz[0] = (float)ft_atoi(light_xyz[0]);
+        mlxdata->initial_struct->light_xyz[1] = (float)ft_atoi(light_xyz[1]);
+        mlxdata->initial_struct->light_xyz[2] = (float)ft_atoi(light_xyz[2]);
 
         mlxdata->initial_struct->light_brightness = ft_atoi(current_string[2]);
 
@@ -91,14 +94,14 @@ void initalise_camera_sphere(char **current_string, t_mlxdata *mlxdata)
     {
         printf("Camera, %s, %s, %s\n", current_string[1], current_string[2], current_string[3]);
         char **camera_xyz_char = ft_split(current_string[1], ',');
-        mlxdata->initial_struct->camera_xyz[0] = ft_atoi(camera_xyz_char[0]);
-        mlxdata->initial_struct->camera_xyz[1] = ft_atoi(camera_xyz_char[1]);
-        mlxdata->initial_struct->camera_xyz[2] = ft_atoi(camera_xyz_char[2]);
+        mlxdata->initial_struct->camera_xyz[0] = (float)ft_atoi(camera_xyz_char[0]);
+        mlxdata->initial_struct->camera_xyz[1] = (float)ft_atoi(camera_xyz_char[1]);
+        mlxdata->initial_struct->camera_xyz[2] = (float)ft_atoi(camera_xyz_char[2]);
 
         char **camera_orientation_char = ft_split(current_string[2], ',');
-        mlxdata->initial_struct->camera_orientation[0] = ft_atoi(camera_orientation_char[0]);
-        mlxdata->initial_struct->camera_orientation[1] = ft_atoi(camera_orientation_char[1]);
-        mlxdata->initial_struct->camera_orientation[2] = ft_atoi(camera_orientation_char[2]);
+        mlxdata->initial_struct->camera_orientation[0] = (float)ft_atoi(camera_orientation_char[0]);
+        mlxdata->initial_struct->camera_orientation[1] = (float)ft_atoi(camera_orientation_char[1]);
+        mlxdata->initial_struct->camera_orientation[2] = (float)ft_atoi(camera_orientation_char[2]);
         mlxdata->initial_struct->camera_fov = ft_atoi(current_string[3]);
     }
     else if (ft_strcmp(current_string[0], "sp") == 0)
@@ -108,16 +111,18 @@ void initalise_camera_sphere(char **current_string, t_mlxdata *mlxdata)
         current_sphere_idx = mlxdata->initial_struct->sphere_count + 1;
         printf("Sphere, %s, %s, %s\n", current_string[1], current_string[2], current_string[3]);
         char **sphere_xyz_char = ft_split(current_string[1], ',');
-        mlxdata->initial_struct->sphere_init[current_sphere_idx].sphere_xyz[0] = ft_atoi(sphere_xyz_char[0]);
-        mlxdata->initial_struct->sphere_init[current_sphere_idx].sphere_xyz[1] = ft_atoi(sphere_xyz_char[1]);
-        mlxdata->initial_struct->sphere_init[current_sphere_idx].sphere_xyz[2] = ft_atoi(sphere_xyz_char[2]);
-
-        mlxdata->initial_struct->sphere_init[current_sphere_idx].sphere_diameter = ft_atoi(current_string[2]);
+        float sphere_xyz_float_arr[3];
+        sphere_xyz_float_arr[0] = (float)ft_atoi(sphere_xyz_char[0]);
+        sphere_xyz_float_arr[1] = (float)ft_atoi(sphere_xyz_char[1]);
+        sphere_xyz_float_arr[2] = (float)ft_atoi(sphere_xyz_char[2]);
+        mlxdata->initial_struct->sphere_init[current_sphere_idx].sphere_xyz = sphere_xyz_float_arr;
 
         char **sphere_rgb_char = ft_split(current_string[3], ',');
-        mlxdata->initial_struct->sphere_init[current_sphere_idx].sphere_rgb[0] = ft_atoi(sphere_rgb_char[0]);
-        mlxdata->initial_struct->sphere_init[current_sphere_idx].sphere_rgb[1] = ft_atoi(sphere_rgb_char[1]);
-        mlxdata->initial_struct->sphere_init[current_sphere_idx].sphere_rgb[2] = ft_atoi(sphere_rgb_char[2]);
+        int sphere_rgb_int_arr[3];
+        sphere_rgb_int_arr[0] = ft_atoi(sphere_rgb_char[0]);
+        sphere_rgb_int_arr[1] = ft_atoi(sphere_rgb_char[1]);
+        sphere_rgb_int_arr[2] = ft_atoi(sphere_rgb_char[2]);
+        mlxdata->initial_struct->sphere_init[current_sphere_idx].sphere_rgb = sphere_rgb_int_arr;
 
         mlxdata->initial_struct->sphere_count++;
 
@@ -132,17 +137,29 @@ void initalise_plane_cylinder(char **current_string, t_mlxdata *mlxdata)
 
         current_plane_idx = mlxdata->initial_struct->plane_count+1;
         printf("Plane, %s, %s, %s\n", current_string[1], current_string[2], current_string[3]);
+
         char **plane_xyz_char = ft_split(current_string[1], ',');
-        mlxdata->initial_struct->plane_init[current_plane_idx].plane_xyz[0] = ft_atoi(plane_xyz_char[0]);
-        mlxdata->initial_struct->plane_init[current_plane_idx].plane_xyz[1] = ft_atoi(plane_xyz_char[1]);
-        mlxdata->initial_struct->plane_init[current_plane_idx].plane_xyz[2] = ft_atoi(plane_xyz_char[2]);
+        float plane_xyz_float_arr[3];
+        plane_xyz_float_arr[0] = (float)ft_atoi(plane_xyz_char[0]);
+        plane_xyz_float_arr[1] = (float)ft_atoi(plane_xyz_char[1]);
+        plane_xyz_float_arr[2] = (float)ft_atoi(plane_xyz_char[2]);
+        mlxdata->initial_struct->plane_init[current_plane_idx].plane_norm_vect = plane_xyz_float_arr;
 
         char **plane_norm_vect_char = ft_split(current_string[2], ',');
-        mlxdata->initial_struct->plane_init[current_plane_idx].plane_norm_vect[0] = ft_atoi(plane_norm_vect_char[0]);
-        mlxdata->initial_struct->plane_init[current_plane_idx].plane_norm_vect[1] = ft_atoi(plane_norm_vect_char[1]);
-        mlxdata->initial_struct->plane_init[current_plane_idx].plane_norm_vect[2] = ft_atoi(plane_norm_vect_char[2]);
+        float plane_norm_vect_float_arr[3];
+        plane_norm_vect_float_arr[0] = (float)ft_atoi(plane_norm_vect_char[0]);
+        plane_norm_vect_float_arr[1] = (float)ft_atoi(plane_norm_vect_char[1]);
+        plane_norm_vect_float_arr[2] = (float)ft_atoi(plane_norm_vect_char[2]);
+        mlxdata->initial_struct->plane_init[current_plane_idx].plane_norm_vect = plane_norm_vect_float_arr;
 
         char **plane_rgb_char = ft_split(current_string[3], ',');
+        int plane_rgb_int_arr[3];
+        plane_rgb_int_arr[0] = ft_atoi(plane_rgb_char[0]);
+        plane_rgb_int_arr[1] = ft_atoi(plane_rgb_char[1]);
+        plane_rgb_int_arr[2] = ft_atoi(plane_rgb_char[2]);
+        mlxdata->initial_struct->plane_init[current_plane_idx].plane_rgb = plane_rgb_int_arr;
+
+
         mlxdata->initial_struct->plane_init[current_plane_idx].plane_rgb[0] = ft_atoi(plane_rgb_char[0]);
         mlxdata->initial_struct->plane_init[current_plane_idx].plane_rgb[1] = ft_atoi(plane_rgb_char[1]);
         mlxdata->initial_struct->plane_init[current_plane_idx].plane_rgb[2] = ft_atoi(plane_rgb_char[2]);
@@ -155,26 +172,42 @@ void initalise_plane_cylinder(char **current_string, t_mlxdata *mlxdata)
         current_cylinder_idx = mlxdata->initial_struct->cylinder_count+1;
 
         printf("Cylinder, %s, %s, %s, %s\n", current_string[1], current_string[2], current_string[3], current_string[4]);
+
+        printf("Cylinder current_string[1]\n");
         char **cylinder_xyz_char = ft_split(current_string[1], ',');
-        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_xyz[0] = ft_atoi(cylinder_xyz_char[0]);
-        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_xyz[1] = ft_atoi(cylinder_xyz_char[1]);
-        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_xyz[2] = ft_atoi(cylinder_xyz_char[2]);
+        int cylinder_xyz_float_arr[3];
+        cylinder_xyz_float_arr[0] = ft_atoi(cylinder_xyz_char[0]);
+        cylinder_xyz_float_arr[1] = ft_atoi(cylinder_xyz_char[1]);
+        cylinder_xyz_float_arr[2] = ft_atoi(cylinder_xyz_char[2]);
+        mlxdata->initial_struct->plane_init[current_cylinder_idx].plane_rgb = cylinder_xyz_float_arr;
 
+        printf("Cylinder current_string[2]\n");
         char **cylinder_norm_vect_char = ft_split(current_string[2], ',');
-        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_norm_vect[0] = ft_atoi(cylinder_norm_vect_char[0]);
-        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_norm_vect[1] = ft_atoi(cylinder_norm_vect_char[1]);
-        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_norm_vect[2] = ft_atoi(cylinder_norm_vect_char[2]);
+        float cylinder_norm_vect_float_arr[3];
+        cylinder_norm_vect_float_arr[0] = (float)ft_atoi(cylinder_norm_vect_char[0]);
+        cylinder_norm_vect_float_arr[1] = (float)ft_atoi(cylinder_norm_vect_char[1]);
+        cylinder_norm_vect_float_arr[2] = (float)ft_atoi(cylinder_norm_vect_char[2]);
+        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_norm_vect = cylinder_norm_vect_float_arr;
 
+
+        printf("Cylinder current_string[3]\n");
         char **cylinder_diameter_char = ft_split(current_string[3], ',');
-        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_diameter = ft_atoi(current_string[3]);
+        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_diameter = (float)ft_atoi(current_string[3]);
 
+        printf("Cylinder current_string[4]\n");
         //char **cylinder_height_char = ft_split(current_string[4], ',');
-        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_height = ft_atoi(current_string[4]);
+        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_height = (float)ft_atoi(current_string[4]);
 
+        printf("Cylinder current_string[5]\n");
         char **cylinder_rgb_char = ft_split(current_string[5], ',');
-        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_rgb[0] = ft_atoi(cylinder_rgb_char[0]);
+        int cylinder_rgb_int_arr[3];
+        cylinder_rgb_int_arr[0] = ft_atoi(cylinder_rgb_char[0]);
+        cylinder_rgb_int_arr[1] = ft_atoi(cylinder_rgb_char[1]);
+        cylinder_rgb_int_arr[2] = ft_atoi(cylinder_rgb_char[2]);
+        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_rgb = cylinder_rgb_int_arr;
+        /*mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_rgb[0] = ft_atoi(cylinder_rgb_char[0]);
         mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_rgb[1] = ft_atoi(cylinder_rgb_char[1]);
-        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_rgb[2] = ft_atoi(cylinder_rgb_char[2]);
+        mlxdata->initial_struct->cylinder_init[current_cylinder_idx].cylinder_rgb[2] = ft_atoi(cylinder_rgb_char[2]);*/
 
         mlxdata->initial_struct->cylinder_count++;
     }
@@ -215,9 +248,13 @@ int valid_parse(int argc, char **argv, t_mlxdata *mlxdata)
 
         fd = open(filename, O_RDONLY);
         int i = 0;
+        printf("line_count: %d\n", line_count);
         while (i < line_count)
         {
+            printf("i: %d\n", i);
             char *current_string = get_next_line(fd);
+            if (current_string[0] == '\n')
+                break;
             parse_line(current_string, mlxdata);
             i++;
         }

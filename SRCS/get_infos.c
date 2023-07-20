@@ -6,7 +6,7 @@
 /*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:44:11 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 13:58:14 by tytang           ###   ########.fr       */
+/*   Updated: 2023/07/20 17:30:37 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@ void get_shapes(t_shapes **shapes, t_mlxdata *mlxdata) {
 	int num_of_cylinder = mlxdata->initial_struct->cylinder_count;
 
     //basic circle (to be changed)
+    //printf("not allocated cirle memory\n");
+
 	(*shapes)->circles = malloc(sizeof(t_cir) * num_of_spheres);
+    printf("allocated cirle memory\n");
     int ctr = 0;
-	while (ctr < num_of_spheres)
+	while (ctr < num_of_spheres-1)
 	{
 		(*shapes)->circles[ctr].center = set_vct(
 			mlxdata->initial_struct->plane_init[ctr].plane_xyz[0],
@@ -46,6 +49,7 @@ void get_shapes(t_shapes **shapes, t_mlxdata *mlxdata) {
 		(*shapes)->circles[ctr].colour = RED;
 		ctr++;
 	}
+    printf("finished number of circles\n");
 	/*(*shapes)->circles[0].center = set_vct(3, 2, 20, 0);
 	(*shapes)->circles[0].radius = 2;
 	(*shapes)->circles[0].colour = 0x64b6ac;
@@ -64,7 +68,7 @@ void get_shapes(t_shapes **shapes, t_mlxdata *mlxdata) {
 	//planes (to be changed*)
     (*shapes)->planes = malloc(sizeof(t_pln) * num_of_planes);
     ctr = 0;
-	while (ctr < num_of_planes)
+	while (ctr < num_of_planes-1)
 	{
 		(*shapes)->planes[ctr].point = set_vct(
 			mlxdata->initial_struct->plane_init[ctr].plane_xyz[0],
@@ -77,6 +81,7 @@ void get_shapes(t_shapes **shapes, t_mlxdata *mlxdata) {
 		(*shapes)->planes[ctr].colour = 0xb70a61;
 		ctr++;
 	}
+    printf("finished number of planes\n");
 	/*(*shapes)->planes[0].point = set_vct(0,0,35,0);
 	(*shapes)->planes[0].norm = set_vct(0,0,1,0);
 	(*shapes)->planes[0].colour = 0xd77a61;

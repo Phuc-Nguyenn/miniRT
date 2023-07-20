@@ -114,15 +114,17 @@ void rotate_z(float angle, t_mlxdata *mlxdata)
     }
 }
 
-float *dot_product_plane(float **rot_mat, int *src_mat)
+float *dot_product_plane(float **rot_mat, float *src_mat)
 {
     float r_height = 3;
     float r_width = 3;
     float src_height = 3;
     float src_width = 1;
 
-    float final_result[3];
+    float *final_result = (float *)malloc(3*sizeof(float));
     final_result[0] = rot_mat[0][0] * src_mat[0] + rot_mat[0][1] * src_mat[0] + rot_mat[0][2] * (float)src_mat[0];
     final_result[1] = rot_mat[1][0] * src_mat[1] + rot_mat[1][1] * src_mat[1] + rot_mat[1][2] * (float)src_mat[1];
     final_result[2] = rot_mat[2][0] * src_mat[2] + rot_mat[2][1] * src_mat[2] + rot_mat[2][2] * (float)src_mat[2];
+
+    return final_result;
 }
