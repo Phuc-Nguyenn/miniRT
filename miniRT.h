@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 18:56:43 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:05:42 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,6 @@ float quadratic_sol2(float a, float b, float c);
 # define RED 0xFF0000
 # define GREEN 0x00FF00
 # define BLUE 0x0000FF
-# define AMBIENT 0.05
+# define AMBIENT 0.1
 
 #endif

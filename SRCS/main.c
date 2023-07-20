@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 18:51:05 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:21:44 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ void shadows(t_ray *rays, t_shapes *shapes, t_light *lights) {
 		for(int s = 0; s < 3; s++)
 			if(in_sph_shadow(&rays[i], &(shapes->circles[s]), lights, &shdw_distance))
 			{
-				float dist_factor = fmax(0,fmin(1,5/(0.5*shdw_distance+1)));
-				rays[i].colour = colour_add(rays[i].colour, round(-25 * dist_factor), 
-					round(-25 * dist_factor), round(-25 * dist_factor), 0);
+				float dist_factor = sqrt(fmax(0,fmin(1,5/(0.5*shdw_distance))));
+				rays[i].colour = colour_add(rays[i].colour, round(-30 * dist_factor), 
+					round(-30 * dist_factor), round(-30 * dist_factor), 0);
 				rays[i].colour = colour_desat(rays[i].colour, 0.5);
 				rays[i].colour = shdw_adjust_lume(rays[i].colour);
 			}

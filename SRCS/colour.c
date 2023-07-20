@@ -6,12 +6,15 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:18:28 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 18:51:17 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:21:27 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
+/*slightly adjusts the luminosity of shadows to make them closer to being the same colour
+ie. moves bright shadows darker and dark shadws brighter. then ensures they are all
+over the ambient light*/
 int shdw_adjust_lume(int colour) {
 	int r = (colour >> 16) & 0xff;
     int g = (colour >> 8) & 0xff;
@@ -19,7 +22,6 @@ int shdw_adjust_lume(int colour) {
 
 	float ave_lume = (r+g+b)/3;
 	float factor = fmin(1,fmax(0,atan(-0.0025*(ave_lume-300))));
-	//printf("%f	", factor);
 	colour = colour_factor(colour, factor);
 	return(colour);
 }
