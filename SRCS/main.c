@@ -6,7 +6,7 @@
 /*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 17:41:13 by tytang           ###   ########.fr       */
+/*   Updated: 2023/07/20 18:26:33 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,9 @@ int main(int argc, char **argv)
     valid_parse(argc, argv, &mlxdata);
 	printf("finished valid_parse\n");
     miniRT(&mlxdata);
+    printf("mlxdata->initial_struct->plane_init[ctr].plane_xyz[0]: %f\n", mlxdata.initial_struct->plane_init[0].plane_xyz[0]);
 	printf("finished miniRT\n");
+    printf("mlxdata->initial_struct->plane_init[ctr].plane_xyz[0]: %f\n", mlxdata.initial_struct->plane_init[0].plane_xyz[0]);
 	mlx_loop(mlxdata.mlx_ptr);
     //miniRT(&mlxdata);
     //miniRT(&mlxdata);

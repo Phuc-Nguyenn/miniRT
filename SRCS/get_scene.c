@@ -6,7 +6,7 @@
 /*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 13:27:17 by tytang            #+#    #+#             */
-/*   Updated: 2023/07/20 17:15:24 by tytang           ###   ########.fr       */
+/*   Updated: 2023/07/20 18:23:24 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ int valid_parse(int argc, char **argv, t_mlxdata *mlxdata)
 
         printf("second arg: %s\n", argv[1]);
         char *filename = argv[1];
-        printf("second arg: %s\n", filename);
+        //printf("second arg: %s\n", filename);
 
         int fd = open(filename, O_RDONLY);
         if (fd == -1)
