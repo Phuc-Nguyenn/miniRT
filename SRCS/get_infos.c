@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:44:11 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 14:47:37 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:20:12 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void get_lights(t_light **lights) {
 	*lights = malloc(sizeof(t_light) * 1);
-	(*lights)[0].pos = set_vct(3, 16, 7, 0);
+	(*lights)[0].pos = set_vct(3, 12, 7, 0);
 	(*lights)[0].lume = 1;
 }
 
@@ -30,7 +30,7 @@ void get_shapes(t_shapes **shapes) {
 	(*shapes)->circles[1].radius = 2;
 	(*shapes)->circles[1].colour = 0xffcdb2;
 
-	(*shapes)->circles[2].center = set_vct(1, 3, 20, 0);
+	(*shapes)->circles[2].center = set_vct(-1, 5, 20, 0);
 	(*shapes)->circles[2].radius = 2;
 	(*shapes)->circles[2].colour = 0x6c5b7b;
 

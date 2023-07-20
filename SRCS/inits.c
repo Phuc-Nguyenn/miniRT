@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:42:21 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 15:17:45 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:35:17 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int initialise_mlx(t_mlxdata *mlxdata) {
 }
 
 void camera_init(t_camera *camera) {
-	camera->view_point = set_vct(0, 0, 0, 0);
+	camera->view_point = set_vct(0, 3, 0, 0);
 	camera->orientation = set_vct(0, 0, 1, 0);
-	camera->fov = 89;
+	camera->fov = 69;
 	camera->projection_distance = 5;
 }
 
@@ -35,14 +35,16 @@ void viewport_init(t_camera *camera) {
 	float pixel_dimension;
 	int i = 0;
 	camera->viewport = (t_vct *)malloc(sizeof(t_vct) * W_HEIGHT * W_WIDTH);
-	for(int y = -(W_HEIGHT/2); y < W_HEIGHT/2; y++) {
+	for(int y = (W_HEIGHT/2); y > -W_HEIGHT/2; y--) {
 		for(int x = -(W_WIDTH/2); x < W_WIDTH/2; x++) {
 			pixel_dimension = 2*camera->projection_distance*tan((camera->fov/2)*((M_PI/180.0)))/W_WIDTH;
 			//camera->viewport[i].x = camera->view_point.x + x * pixel_dimension;
 			//camera->viewport[i].y = camera->view_point.y - y * pixel_dimension;
 			//camera->viewport[i].z = camera->view_point.z + camera->projection_distance;
-			t_vct x_vct = vct_scalar_prod(x*pixel_dimension,unit_vct(vct_cross_prod(set_vct(0,1,0,0),camera->orientation)));
-			t_vct y_vct = vct_scalar_prod(y*pixel_dimension,set_vct(0,1,0,0));
+			t_vct x_dir = vct_cross_prod(set_vct(0,1,0,0),camera->orientation);
+			t_vct y_dir = vct_cross_prod(x_dir, camera->orientation);
+			t_vct x_vct = vct_scalar_prod(x*pixel_dimension,unit_vct(x_dir));
+			t_vct y_vct = vct_scalar_prod(y*pixel_dimension,unit_vct(y_dir));
 			camera->viewport[i] = vct_add(camera->view_point, vct_scalar_prod(camera->projection_distance, unit_vct(camera->orientation)));
 			camera->viewport[i] = vct_add(camera->viewport[i], x_vct);
 			camera->viewport[i] = vct_add(camera->viewport[i], y_vct);
@@ -58,8 +60,8 @@ void rays_init(t_camera *camera, t_ray **rays)
 	int i;
 	for(i = 0; i < W_WIDTH * W_HEIGHT; i++) {
 		(*rays)[i].start_pos = camera->view_point;
-		(*rays)[i].direction = vct_sub(camera->viewport[i],camera->view_point);
-		//printf("[x,y,z] = %f, %f, %f\n", rays[i].direction.x, rays[i].direction.y, rays[i].direction.z);
+		(*rays)[i].direction = unit_vct(vct_sub(camera->viewport[i],camera->view_point));
+		//printf("[x,y,z] = %f, %f, %f\n", (*rays)[i].start_pos.x, (*rays)[i].start_pos.y, (*rays)[i].start_pos.z);
 		(*rays)[i].colour = BLACK;
 		(*rays)[i].parameter = 0;
 	}
