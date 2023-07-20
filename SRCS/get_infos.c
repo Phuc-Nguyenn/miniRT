@@ -3,26 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   get_infos.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:44:11 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 12:51:40 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:58:14 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-void get_lights(t_light **lights) {
+void get_lights(t_light **lights, t_mlxdata *mlxdata) {
 	*lights = malloc(sizeof(t_light) * 1);
-	(*lights)[0].pos = set_vct(3, 20, 12, 0);
-	(*lights)[0].lume = 1;
+	//(*lights)[0].pos = set_vct(3, 20, 12, 0);
+	
+    //using user input
+    int l_x = mlxdata->initial_struct->light_xyz[0];
+	int l_y = mlxdata->initial_struct->light_xyz[1];
+	int l_z = mlxdata->initial_struct->light_xyz[2];
+
+	(*lights)[0].pos = set_vct(l_x, l_y, l_z, 0);
+    
+    (*lights)[0].lume = 1;
 }
 
-void get_shapes(t_shapes **shapes) {
+void get_shapes(t_shapes **shapes, t_mlxdata *mlxdata) {
 	*shapes = malloc(sizeof(t_shapes) * 2);
-	(*shapes)->circles = malloc(sizeof(t_cir) * 3);
-	/*basic circle (to be changed)*/
-	(*shapes)->circles[0].center = set_vct(3, 2, 20, 0);
+
+    int num_of_spheres = mlxdata->initial_struct->sphere_count;
+	int num_of_planes = mlxdata->initial_struct->plane_count;
+	int num_of_cylinder = mlxdata->initial_struct->cylinder_count;
+
+    //basic circle (to be changed)
+	(*shapes)->circles = malloc(sizeof(t_cir) * num_of_spheres);
+    int ctr = 0;
+	while (ctr < num_of_spheres)
+	{
+		(*shapes)->circles[ctr].center = set_vct(
+			mlxdata->initial_struct->plane_init[ctr].plane_xyz[0],
+			mlxdata->initial_struct->plane_init[ctr].plane_xyz[1],
+			mlxdata->initial_struct->plane_init[ctr].plane_xyz[2], 0);
+		(*shapes)->circles[ctr].radius = 2;
+		(*shapes)->circles[ctr].colour = RED;
+		ctr++;
+	}
+	/*(*shapes)->circles[0].center = set_vct(3, 2, 20, 0);
 	(*shapes)->circles[0].radius = 2;
 	(*shapes)->circles[0].colour = 0x64b6ac;
 
@@ -32,12 +56,28 @@ void get_shapes(t_shapes **shapes) {
 
 	(*shapes)->circles[2].center = set_vct(1, 15, 14, 0);
 	(*shapes)->circles[2].radius = 2;
-	(*shapes)->circles[2].colour = 0x6c5b7b;
+	(*shapes)->circles[2].colour = 0x6c5b7b;*/
 
-	(*shapes)->planes = malloc(sizeof(t_pln) * 4);
+
+
+	
 	//planes (to be changed*)
-
-	(*shapes)->planes[0].point = set_vct(0,0,35,0);
+    (*shapes)->planes = malloc(sizeof(t_pln) * num_of_planes);
+    ctr = 0;
+	while (ctr < num_of_planes)
+	{
+		(*shapes)->planes[ctr].point = set_vct(
+			mlxdata->initial_struct->plane_init[ctr].plane_xyz[0],
+			mlxdata->initial_struct->plane_init[ctr].plane_xyz[1],
+			mlxdata->initial_struct->plane_init[ctr].plane_xyz[2], 0);
+		(*shapes)->planes[ctr].norm = set_vct(
+			mlxdata->initial_struct->plane_init[ctr].plane_norm_vect[0],
+			mlxdata->initial_struct->plane_init[ctr].plane_norm_vect[1],
+			mlxdata->initial_struct->plane_init[ctr].plane_norm_vect[2], 0);
+		(*shapes)->planes[ctr].colour = 0xb70a61;
+		ctr++;
+	}
+	/*(*shapes)->planes[0].point = set_vct(0,0,35,0);
 	(*shapes)->planes[0].norm = set_vct(0,0,1,0);
 	(*shapes)->planes[0].colour = 0xd77a61;
 
@@ -51,5 +91,5 @@ void get_shapes(t_shapes **shapes) {
 
 	(*shapes)->planes[3].point = set_vct(7,0,0,0);
 	(*shapes)->planes[3].norm = set_vct(1,0,0,0);
-	(*shapes)->planes[3].colour = 0xffdde4;
+	(*shapes)->planes[3].colour = 0xffdde4;*/
 }

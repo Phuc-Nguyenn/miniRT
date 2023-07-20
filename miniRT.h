@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 13:05:42 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:07:14 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include "./libftprintf/ft_printf.h"
 # include "./minilibx/mlx.h"
 # include "./get_next_line/get_next_line.h"
+# include "./initalisation.h"
+# include "./keys.h"
 
 # define W_WIDTH 1920
 # define W_HEIGHT 1080
@@ -69,6 +71,7 @@ typedef struct camera
 
 typedef struct s_mlxdata
 {
+	t_inital_var *initial_struct;
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*img_ptr;
@@ -100,14 +103,14 @@ typedef struct s_shapes
 } t_shapes;
 
 //get_infos.c
-void get_lights(t_light **lights);
-void get_shapes(t_shapes **shapes);
+void get_lights(t_light **lights, t_mlxdata *mlxdata);
+void get_shapes(t_shapes **shapes, t_mlxdata *mlxdata);
 
 
 //inits.c
 void rays_init(t_camera *camera, t_ray **rays);
 void viewport_init(t_camera *camera);
-void camera_init(t_camera *camera);
+void camera_init(t_camera *camera, t_mlxdata *mlxdata);
 int initialise_mlx(t_mlxdata *mlxdata);
 
 
@@ -136,6 +139,7 @@ int shdw_adjust_lume(int colour);
 //main.c
 int initialise_mlx(t_mlxdata *mlxdata);
 void shadows(t_ray *rays, t_shapes *shapes, t_light *lights);
+void miniRT(t_mlxdata *mlxdata);
 
 //image.c
 void	clear_screen(t_mlxdata *mlxdata);
@@ -152,6 +156,30 @@ float vct_dot_prod(t_vct vct1, t_vct vct2);
 float discrim(float a, float b, float c);
 float quadratic_sol(float a, float b, float c);
 float quadratic_sol2(float a, float b, float c);
+
+// in get_scene.c
+int count_new_lines(char *src);
+void initalise_lighting(char **current_string, t_mlxdata *mlxdata);
+void initalise_camera_sphere(char **current_string, t_mlxdata *mlxdata);
+void initalise_plane_cylinder(char **current_string, t_mlxdata *mlxdata);
+void parse_line(char *src, t_mlxdata *mlxdata);             // parsing lines into the structs
+int valid_parse(int argc, char **argv, t_mlxdata *mlxdata); // reading file and parsing into the struct
+
+// in keyevent.c
+int keyevent(int key, t_mlxdata *mlxdata);
+void change_object(int key, t_mlxdata *mlxdata);
+void change_light(int key, t_mlxdata *mlxdata);
+void change_camera(int key, t_mlxdata *mlxdata);
+void rotate(int key, t_mlxdata *mlxdata);
+
+// in rotate_plane.c
+float **create_rot_mat_x(float angle);
+float **create_rot_mat_y(float angle);
+float **create_rot_mat_z(float angle);
+void rotate_x(float angle, t_mlxdata *mlxdata);
+void rotate_y(float angle, t_mlxdata *mlxdata);
+void rotate_z(float angle, t_mlxdata *mlxdata);
+float *dot_product_plane(float **rot_mat, int *src_mat);
 
 
 //colours

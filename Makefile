@@ -11,7 +11,9 @@ files = main.c\
 	inits.c\
 	get_infos.c\
 	colour.c\
-	
+	keyevent.c\
+	get_scene.c\
+	rotate_plane.c\
 	
 SRCS = $(addprefix ./SRCS/, $(files))
 OBJS = $(SRCS:c=o)

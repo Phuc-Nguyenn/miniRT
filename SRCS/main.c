@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 13:21:44 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:54:29 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ void miniRT(t_mlxdata *mlxdata) {
 	t_light *lights;
 
 	clear_screen(mlxdata);
-	camera_init(&camera);
+	camera_init(&camera, mlxdata);
 	viewport_init(&camera);
 	rays_init(&camera, &rays);
-	get_shapes(&shapes);
-	get_lights(&lights);
+	get_shapes(&shapes, mlxdata);
+	get_lights(&lights, mlxdata);
 	intersections(rays, shapes, lights);
 	shadows(rays, shapes, lights);
 

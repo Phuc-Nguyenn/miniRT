@@ -18,7 +18,7 @@
 # include <string.h>
 
 //EXCLUDES FT_ATOI.c
-
+int	ft_atoi(char const *str);
 /*is------------------------------------------------------------------*/
 //ft_isalnum: alphanumeric character test
 int		ft_isalnum(int c);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:42:21 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 16:06:17 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:29:05 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,30 @@ int initialise_mlx(t_mlxdata *mlxdata) {
 	return(1);
 }
 
-void camera_init(t_camera *camera) {
-	camera->view_point = set_vct(0, 0, 0, 0);
+void camera_init(t_camera *camera, t_mlxdata *mlxdata) {
+	/*camera->view_point = set_vct(0, 0, 0, 0);
 	camera->orientation = set_vct(0, 0, 1, 0);
 	camera->fov = 53;
+	camera->projection_distance = 5;*/
+
+    //using user input
+    camera->fov = 53;
 	camera->projection_distance = 5;
+
+	// using the file input
+	int vp_x = mlxdata->initial_struct->camera_xyz[0];
+	int vp_y = mlxdata->initial_struct->camera_xyz[1];
+	int vp_z = mlxdata->initial_struct->camera_xyz[2];
+
+	camera->view_point = set_vct(vp_x, vp_y, vp_z, 0); // idk what the last number does
+
+	int o_x = mlxdata->initial_struct->camera_orientation[0];
+	int o_y = mlxdata->initial_struct->camera_orientation[1];
+	int o_z = mlxdata->initial_struct->camera_orientation[2];
+
+	camera->orientation = set_vct(o_x, o_y, o_z, 0); // idk what the last number does
+
+	camera->fov = mlxdata->initial_struct->camera_fov;
 }
 
 /*calculates the coordinates corresponding to the camera's coordinates*/
