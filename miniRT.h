@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 13:05:42 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:37:49 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ int colour_factor(int colour, float factor);
 int colour_add(int colour, int r, int g, int b, int a);
 int colour_desat(int colour, float desat_amt);
 int shdw_adjust_lume(int colour);
+float colour_lume(int colour);
 
 //main.c
 int initialise_mlx(t_mlxdata *mlxdata);
@@ -161,5 +162,6 @@ float quadratic_sol2(float a, float b, float c);
 # define GREEN 0x00FF00
 # define BLUE 0x0000FF
 # define AMBIENT 0.1
+
 
 #endif

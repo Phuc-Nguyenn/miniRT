@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 13:21:44 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:37:25 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,22 @@ int in_sph_shadow(t_ray *ray, t_cir *sphere, t_light *lights, float *shdw_distan
 }
 
 
+int colour_to_ambient(int colour, float ambient){
+	int r = (colour >> 16) & 0xff;
+    int g = (colour >> 8) & 0xff;
+    int b = colour & 0xff;
+	float lume = (r+b+g)/3;
+
+	if(lume < ambient){
+		float multiplier = ambient * 255 / lume;
+		r = (int)(r * multiplier);
+		g = (int)(g * multiplier);
+		b = (int)(g * multiplier);
+	}
+	colour = ((r << 16) & 0xff0000) | ((g << 8) & 0x00ff00) | (b & 0x0000ff);
+    return colour;
+}
+
 /*calculates whether a particular ray should be in shadow and change
 its colour to ambient accordingly*/
 void shadows(t_ray *rays, t_shapes *shapes, t_light *lights) {
@@ -57,11 +73,14 @@ void shadows(t_ray *rays, t_shapes *shapes, t_light *lights) {
 		for(int s = 0; s < 3; s++)
 			if(in_sph_shadow(&rays[i], &(shapes->circles[s]), lights, &shdw_distance))
 			{
-				float dist_factor = sqrt(fmax(0,fmin(1,5/(0.5*shdw_distance))));
-				rays[i].colour = colour_add(rays[i].colour, round(-30 * dist_factor), 
-					round(-30 * dist_factor), round(-30 * dist_factor), 0);
+				float dist_factor = fmax(0,fmin(1,5/(0.5*shdw_distance)));
+				rays[i].colour = colour_add(rays[i].colour, round(-50 * dist_factor), 
+					round(-50 * dist_factor), round(-50 * dist_factor), 0);
 				rays[i].colour = colour_desat(rays[i].colour, 0.5);
 				rays[i].colour = shdw_adjust_lume(rays[i].colour);
+				if(colour_lume(rays[i].colour) < AMBIENT)
+					rays[i].colour = colour_to_ambient(rays[i].colour, AMBIENT);
+				
 			}
 		//for(int p = 0; p < 1; p++)
 			//in_pln_shadow()

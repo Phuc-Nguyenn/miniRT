@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:42:21 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 16:06:17 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:17:45 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int initialise_mlx(t_mlxdata *mlxdata) {
 void camera_init(t_camera *camera) {
 	camera->view_point = set_vct(0, 0, 0, 0);
 	camera->orientation = set_vct(0, 0, 1, 0);
-	camera->fov = 53;
+	camera->fov = 89;
 	camera->projection_distance = 5;
 }
 
@@ -38,9 +38,14 @@ void viewport_init(t_camera *camera) {
 	for(int y = -(W_HEIGHT/2); y < W_HEIGHT/2; y++) {
 		for(int x = -(W_WIDTH/2); x < W_WIDTH/2; x++) {
 			pixel_dimension = 2*camera->projection_distance*tan((camera->fov/2)*((M_PI/180.0)))/W_WIDTH;
-			camera->viewport[i].x = camera->view_point.x + x * pixel_dimension;
-			camera->viewport[i].y = camera->view_point.y - y * pixel_dimension;
-			camera->viewport[i].z = camera->view_point.z + camera->projection_distance;
+			//camera->viewport[i].x = camera->view_point.x + x * pixel_dimension;
+			//camera->viewport[i].y = camera->view_point.y - y * pixel_dimension;
+			//camera->viewport[i].z = camera->view_point.z + camera->projection_distance;
+			t_vct x_vct = vct_scalar_prod(x*pixel_dimension,unit_vct(vct_cross_prod(set_vct(0,1,0,0),camera->orientation)));
+			t_vct y_vct = vct_scalar_prod(y*pixel_dimension,set_vct(0,1,0,0));
+			camera->viewport[i] = vct_add(camera->view_point, vct_scalar_prod(camera->projection_distance, unit_vct(camera->orientation)));
+			camera->viewport[i] = vct_add(camera->viewport[i], x_vct);
+			camera->viewport[i] = vct_add(camera->viewport[i], y_vct);
 			//printf("[x,y,z] = %f, %f, %f\n", camera->viewport[i].x, camera->viewport[i].y, camera->viewport[i].z);
 			i++;
 		}
