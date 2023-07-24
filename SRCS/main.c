@@ -6,7 +6,7 @@
 /*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 18:26:33 by tytang           ###   ########.fr       */
+/*   Updated: 2023/07/24 13:54:26 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,11 @@ void miniRT(t_mlxdata *mlxdata) {
 
 
 	viewport_to_image(mlxdata, &rays);
+    printf("finished viewport_to_image\n");
 	
 	mlx_put_image_to_window(mlxdata->mlx_ptr, mlxdata->win_ptr, mlxdata->img_ptr, 0, 0);
+    printf("finished mlx_put_image_to_window\n");
+
 }
 
 int main(int argc, char **argv)
@@ -130,13 +133,14 @@ int main(int argc, char **argv)
     valid_parse(argc, argv, &mlxdata);
 	printf("finished valid_parse\n");
     miniRT(&mlxdata);
-    printf("mlxdata->initial_struct->plane_init[ctr].plane_xyz[0]: %f\n", mlxdata.initial_struct->plane_init[0].plane_xyz[0]);
+    printf("(main) mlxdata->initial_struct->sphere_count: %d\n", mlxdata.initial_struct->sphere_count);
 	printf("finished miniRT\n");
-    printf("mlxdata->initial_struct->plane_init[ctr].plane_xyz[0]: %f\n", mlxdata.initial_struct->plane_init[0].plane_xyz[0]);
+    printf("(main ) mlxdata->initial_struct->sphere_count: %d\n", mlxdata.initial_struct->sphere_count);
 	mlx_loop(mlxdata.mlx_ptr);
     //miniRT(&mlxdata);
     //miniRT(&mlxdata);
     //miniRT(&mlxdata);
+    printf("wooo\n");
 
 	return(0);
 }

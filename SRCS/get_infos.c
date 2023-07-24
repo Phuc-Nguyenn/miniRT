@@ -6,7 +6,7 @@
 /*   By: tytang <tytang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:44:11 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 17:30:37 by tytang           ###   ########.fr       */
+/*   Updated: 2023/07/24 13:26:10 by tytang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@ void get_lights(t_light **lights, t_mlxdata *mlxdata) {
 	int l_z = mlxdata->initial_struct->light_xyz[2];
 
 	(*lights)[0].pos = set_vct(l_x, l_y, l_z, 0);
-    
     (*lights)[0].lume = 1;
 }
 
 void get_shapes(t_shapes **shapes, t_mlxdata *mlxdata) {
+    printf("inside get_shapes\n");
+    printf("(get_shapes) mlxdata->initial_struct->sphere_init[%d].sphere_xyz[0]: %f\n", 0, mlxdata->initial_struct->sphere_init[0].sphere_xyz[0]);
+
 	*shapes = malloc(sizeof(t_shapes) * 2);
 
     int num_of_spheres = mlxdata->initial_struct->sphere_count;
@@ -39,13 +41,18 @@ void get_shapes(t_shapes **shapes, t_mlxdata *mlxdata) {
 	(*shapes)->circles = malloc(sizeof(t_cir) * num_of_spheres);
     printf("allocated cirle memory\n");
     int ctr = 0;
+    printf("num_of_spheres: %d\n", num_of_spheres);
+    printf("(get_shapes) mlxdata->initial_struct->sphere_init[%d].sphere_xyz[0]: %f\n", 0, mlxdata->initial_struct->sphere_init[0].sphere_xyz[0]);
+
 	while (ctr < num_of_spheres-1)
 	{
+        printf("(get_shapes) mlxdata->initial_struct->sphere_init[%d].sphere_xyz[0]: %f\n", ctr, mlxdata->initial_struct->sphere_init[ctr].sphere_xyz[0]);
 		(*shapes)->circles[ctr].center = set_vct(
-			mlxdata->initial_struct->plane_init[ctr].plane_xyz[0],
-			mlxdata->initial_struct->plane_init[ctr].plane_xyz[1],
-			mlxdata->initial_struct->plane_init[ctr].plane_xyz[2], 0);
-		(*shapes)->circles[ctr].radius = 2;
+			mlxdata->initial_struct->sphere_init[ctr].sphere_xyz[0],
+			mlxdata->initial_struct->sphere_init[ctr].sphere_xyz[1],
+			mlxdata->initial_struct->sphere_init[ctr].sphere_xyz[2], 0);
+        printf("(get_shapes) mlxdata->initial_struct->sphere_init[%d].sphere_xyz[0]: %f\n", ctr, mlxdata->initial_struct->sphere_init[ctr].sphere_xyz[0]);
+		(*shapes)->circles[ctr].radius = mlxdata->initial_struct->sphere_init[ctr].sphere_diameter / 2;
 		(*shapes)->circles[ctr].colour = RED;
 		ctr++;
 	}
@@ -65,7 +72,7 @@ void get_shapes(t_shapes **shapes, t_mlxdata *mlxdata) {
 
 
 	
-	//planes (to be changed*)
+	//planes (to be changed)
     (*shapes)->planes = malloc(sizeof(t_pln) * num_of_planes);
     ctr = 0;
 	while (ctr < num_of_planes-1)
