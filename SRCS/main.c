@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 17:43:31 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/24 23:14:23 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@ void shadows(t_ray *rays, t_shapes *shapes, t_light *lights) {
 		for(int s = 0; s < 3; s++)
 			if(in_sph_shadow(&rays[i], &(shapes->circles[s]), lights, &shdw_distance))
 			{
-				/*rays[i].colour = colour_factor(rays[i].colour, AMBIENT);
-				rays[i].colour = colour_desat(rays[i].colour, 0.5);*/
-				
-				float dist_factor = fmax(0,fmin(1,5/(0.5*shdw_distance)));
-				rays[i].colour = colour_add(rays[i].colour, round(-50 * dist_factor), 
-					round(-50 * dist_factor), round(-50 * dist_factor), 0);
+				rays[i].colour = colour_factor(rays[i].colour, 0.2);
 				rays[i].colour = colour_desat(rays[i].colour, 0.5);
-				rays[i].colour = shdw_adjust_lume(rays[i].colour);
+				
+				// float dist_factor = fmax(0,fmin(1,5/(0.5*shdw_distance)));
+				// rays[i].colour = colour_add(rays[i].colour, round(-50), 
+				// 	round(-50), round(-50), 0);
+				// rays[i].colour = colour_desat(rays[i].colour, 0.5);
+				// rays[i].colour = shdw_adjust_lume(rays[i].colour);
 			}
 		//for(int p = 0; p < 1; p++)
 			//in_pln_shadow()
@@ -108,8 +108,6 @@ void viewport_to_image(t_mlxdata *mlxdata, t_ray **rays) {
 	}
 }
 
-ambience
-
 void miniRT(t_mlxdata *mlxdata) {
 	t_camera camera;
 	t_ray *rays;
@@ -123,8 +121,8 @@ void miniRT(t_mlxdata *mlxdata) {
 	get_shapes(&shapes);
 	get_lights(&lights);
 	intersections(rays, shapes, lights);
-	shadows(rays, shapes, lights);
-	ambience(rays);
+	//shadows(rays, shapes, lights);
+	//ambience(rays);
 
 	viewport_to_image(mlxdata, &rays);
 	
