@@ -6,14 +6,14 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:37:16 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 18:55:03 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/25 09:22:37 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../miniRT.h"
 
 float calc_pln_colour(t_ray ray, t_pln plane, t_light *lights) {
-	t_vct intsct_pt = vct_scalar_prod(ray.parameter,ray.direction);
+	t_vct intsct_pt = vct_add(ray.start_pos, vct_scalar_prod(ray.parameter,ray.direction));
 	t_vct norm = plane.norm;
 	t_vct to_lgt = vct_sub(lights[0].pos, intsct_pt);
 	float cos_theta = vct_dot_prod(norm , to_lgt)/(vct_magnitude(norm)*vct_magnitude(to_lgt));
@@ -37,7 +37,7 @@ void pln_intersects(t_ray *ray, t_pln *plane, t_light *lights) {
 				+ (*plane).norm.z * (*ray).direction.z;
 	float intsct_param = (D-numer)/denom;
 	if (intsct_param >= 0) {
-		t_vct intsct_pt = vct_scalar_prod(intsct_param,(*ray).direction);
+		t_vct intsct_pt = vct_add(ray->start_pos, vct_scalar_prod(intsct_param,(*ray).direction));
 		t_ray tmp;
 		tmp.direction = ray->direction;
 		tmp.start_pos = ray->start_pos;
