@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:50:46 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 15:38:10 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/25 09:05:35 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@ t_vct sphere_normal(t_cir sphere, t_vct intersection_point){
 }
 
 float calc_sph_colour(t_ray ray, t_cir sphere, t_light *lights){
-	t_vct intsct_pt = vct_scalar_prod(ray.parameter,ray.direction);
+	t_vct intsct_pt = vct_add(ray.start_pos, vct_scalar_prod(ray.parameter,ray.direction));
 	t_vct norm = sphere_normal(sphere, intsct_pt);
 	t_vct to_lgt = vct_sub(lights[0].pos, intsct_pt);
 	float cos_theta = vct_dot_prod(norm, to_lgt)/(vct_magnitude(norm)*vct_magnitude(to_lgt));
 	cos_theta = fmax(cos_theta, 0);
 	cos_theta = 1-acos(cos_theta)/(M_PI/2);
-	float luminosity = 1;
-	luminosity = cos_theta;
+	float luminosity = cos_theta;
 	return(luminosity);
 }
 
@@ -48,7 +47,7 @@ void sph_intersects(t_ray *ray, t_cir *sphere, t_light *lights){
 	if(discrim(a,b,c) >= 0) {
 		float intsct_param = quadratic_sol(a,b,c);
 		if(intsct_param >= 0) {
-			t_vct intsct_pt = vct_scalar_prod(intsct_param,(*ray).direction);
+			t_vct intsct_pt = vct_add((*ray).start_pos, vct_scalar_prod(intsct_param,(*ray).direction));
 			t_ray tmp;
 			tmp.direction = ray->direction;
 			tmp.start_pos = ray->start_pos;

@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:32:34 by phunguye          #+#    #+#             */
-/*   Updated: 2023/09/24 23:14:23 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/25 09:08:20 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int intsct_current(t_ray to_lgt, t_cir *sphere) {
 
 int in_sph_shadow(t_ray *ray, t_cir *sphere, t_light *lights, float *shdw_distance) {
 	t_ray to_lgt;
-	to_lgt.start_pos = vct_scalar_prod((*ray).parameter, (*ray).direction);
+	to_lgt.start_pos = vct_add(ray->start_pos, vct_scalar_prod((*ray).parameter, (*ray).direction));
 	to_lgt.direction = vct_sub(lights[0].pos, to_lgt.start_pos);
 	to_lgt.mag = vct_magnitude(to_lgt.direction);
 
@@ -121,7 +121,7 @@ void miniRT(t_mlxdata *mlxdata) {
 	get_shapes(&shapes);
 	get_lights(&lights);
 	intersections(rays, shapes, lights);
-	//shadows(rays, shapes, lights);
+	shadows(rays, shapes, lights);
 	//ambience(rays);
 
 	viewport_to_image(mlxdata, &rays);
