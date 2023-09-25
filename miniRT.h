@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/09/24 22:51:52 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/25 23:19:46 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "./libftprintf/ft_printf.h"
 # include "./minilibx/mlx.h"
 # include "./get_next_line/get_next_line.h"
+#include "./key.h"
 
 # define W_WIDTH 1920
 # define W_HEIGHT 1080
@@ -98,6 +99,15 @@ typedef struct s_shapes
 	t_cir *circles;
 	//t_cyl *cylinders;
 } t_shapes;
+
+typedef struct s_miniRT
+{
+  t_mlxdata mlxdata;
+  t_camera camera;
+	t_ray *rays;
+	t_shapes *shapes;
+	t_light *lights;
+} t_miniRT;
 
 //get_infos.c
 void get_lights(t_light **lights);

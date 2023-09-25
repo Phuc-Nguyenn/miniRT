@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:42:21 by phunguye          #+#    #+#             */
-/*   Updated: 2023/09/25 09:15:35 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/25 23:36:28 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int initialise_mlx(t_mlxdata *mlxdata) {
 }
 
 void camera_init(t_camera *camera) {
-	camera->view_point = set_vct(0, 5, 0, 0);
-	camera->orientation = set_vct(0, -0.2, 1, 0);
+	camera->view_point = set_vct(0, 0, 0, 0);
+	camera->orientation = set_vct(0, 0, 1, 0);
 	camera->fov = 69;
 	camera->projection_distance = 5;
 }
@@ -42,13 +42,13 @@ void viewport_init(t_camera *camera) {
       // camera->viewport[i].y = camera->view_point.y + y * pixel_dimension;
       // camera->viewport[i].z = camera->view_point.z + camera->projection_distance;
       t_vct x_dir = vct_cross_prod(set_vct(0,1,0,0),camera->orientation);
-      t_vct y_dir = vct_cross_prod(x_dir, camera->orientation);
+      t_vct y_dir = vct_cross_prod(x_dir, vct_scalar_prod(-1,camera->orientation));
       t_vct x_vct = vct_scalar_prod(x * pixel_dimension,unit_vct(x_dir));
       t_vct y_vct = vct_scalar_prod(y * pixel_dimension,unit_vct(y_dir));
       camera->viewport[i] = vct_add(camera->view_point, vct_scalar_prod(camera->projection_distance, unit_vct(camera->orientation)));
       camera->viewport[i] = vct_add(camera->viewport[i], x_vct);
       camera->viewport[i] = vct_add(camera->viewport[i], y_vct);
-      //printf("[x,y,z] = %f, %f, %f\n", camera->viewport[i].x, camera->viewport[i].y, camera->viewport[i].z);
+      //printf("[x,y,z] = %f, %f, %f\n", x_dir.x, x_dir.y, x_dir.z);
       i++;
     }
   }

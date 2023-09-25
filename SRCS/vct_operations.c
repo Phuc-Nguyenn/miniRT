@@ -71,7 +71,7 @@ float vct_dot_prod(t_vct vct1, t_vct vct2) {
 t_vct vct_cross_prod(t_vct vct1, t_vct vct2) {
 	t_vct new;
 	new.x = vct1.y * vct2.z - vct1.z * vct2.y;
-	new.y = vct1.x * vct2.z - vct1.z * vct2.x;
+	new.y = vct1.z * vct2.x - vct1.x * vct2.z;
 	new.z = vct1.x * vct2.y - vct1.y * vct2.x;
 	return(new);
 }
