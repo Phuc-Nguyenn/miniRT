@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/09/27 21:43:46 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/27 22:59:18 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,9 @@ int colour_to_ambient(int colour, float ambient);
 //main.c
 int initialise_mlx(t_mlxdata *mlxdata);
 void shadows(t_ray *rays, t_shapes *shapes, t_light *lights);
-void make_scene(t_ray *rays, t_shapes *shapes, t_light *lights);
 
 //image.c
+void make_scene(t_ray *rays, t_shapes *shapes, t_light *lights);
 void	clear_screen(t_mlxdata *mlxdata);
 void viewport_to_image(t_mlxdata *mlxdata, t_ray **rays);
 
@@ -172,6 +172,8 @@ float quadratic_sol(float a, float b, float c);
 float quadratic_sol2(float a, float b, float c);
 t_vct rand_vct();
 
+void ft_miniRT(t_miniRT *miniRT);
+int	key_hook(int keycode, t_miniRT *miniRT);
 
 //colours
 # define WHITE 0xFFFFFF

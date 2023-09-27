@@ -14,6 +14,7 @@ files = main.c\
 	inits.c\
 	get_infos.c\
 	colour.c\
+	key_hooks.c\
 
 SRCS = $(addprefix ./SRCS/, $(files))
 OBJS = $(SRCS:c=o)
