@@ -6,11 +6,11 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:50:46 by phunguye          #+#    #+#             */
-/*   Updated: 2023/09/26 14:42:52 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:43:17 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../miniRT.h"
+# include "../includes/miniRT.h"
 
 /*returns a normal unit vector to a sphere*/
 t_vct sphere_normal(t_cir sphere, t_vct intersection_point){

@@ -6,11 +6,11 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 14:18:48 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/16 17:19:03 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:42:58 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniRT.h"
+# include "../includes/miniRT.h"
 
 //changes the colour of a pixel in the pixel string to the colour
 //the pixel is a 32 bit pixel

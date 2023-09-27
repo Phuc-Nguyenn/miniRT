@@ -3,6 +3,7 @@
 NAME = miniRT
 CC = gcc
 FLAGS = -Werror -Wextra -Wall
+INC_DIR = ./includes
 
 files = main.c\
 	image.c\
@@ -13,8 +14,7 @@ files = main.c\
 	inits.c\
 	get_infos.c\
 	colour.c\
-	
-	
+
 SRCS = $(addprefix ./SRCS/, $(files))
 OBJS = $(SRCS:c=o)
 
@@ -38,7 +38,7 @@ $(MINILIBX):
 	$(MAKE) -sC ./mlx_linux
 
 $(NAME): $(LIBFTPRINTF) $(MINILIBX) $(GNL_OBJS) $(OBJS)
-	$(CC) $(GNL_OBJS) $(OBJS) $(LIBFTPRINTF) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) -I$(INC_DIR) $(GNL_OBJS) $(OBJS) $(LIBFTPRINTF) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 	@echo "\n miniRT compiled\n"
 
 clean:

@@ -10,7 +10,7 @@
 // /*                                                                            */
 // /* ************************************************************************** */
 
-# include "../miniRT.h"
+# include "../includes/miniRT.h"
 
 float calculateCosineTheta(t_vct normal, t_vct to_light) {
     float dot_product = vct_dot_prod(normal, to_light);

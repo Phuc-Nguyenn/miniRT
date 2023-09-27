@@ -6,11 +6,11 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 00:34:53 by phunguye          #+#    #+#             */
-/*   Updated: 2023/09/26 13:21:14 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:43:03 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniRT.h"
+# include "../includes/miniRT.h"
 
 void viewport_to_image(t_mlxdata *mlxdata, t_ray **rays) {
 	int i = 0;

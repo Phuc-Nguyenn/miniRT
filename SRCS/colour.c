@@ -6,11 +6,11 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:18:28 by phunguye          #+#    #+#             */
-/*   Updated: 2023/09/26 13:23:04 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:42:54 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniRT.h"
+# include "../includes/miniRT.h"
 
 /*slightly adjusts the luminosity of shadows to make them closer to being the same colour
 ie. moves bright shadows darker and dark shadws brighter. then ensures they are all

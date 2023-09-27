@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../miniRT.h"
+# include "../includes/miniRT.h"
 # include <stdlib.h>
 # include <time.h>
 

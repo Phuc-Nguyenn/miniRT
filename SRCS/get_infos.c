@@ -6,11 +6,11 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:44:11 by phunguye          #+#    #+#             */
-/*   Updated: 2023/09/26 13:26:29 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:43:00 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniRT.h"
+# include "../includes/miniRT.h"
 
 void get_lights(t_light **lights) {
 	*lights = malloc(sizeof(t_light) * 1);
