@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 11:44:11 by phunguye          #+#    #+#             */
-/*   Updated: 2023/09/25 23:08:02 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:26:29 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void get_shapes(t_shapes **shapes) {
 	(*shapes)->circles[1].radius = 2;
 	(*shapes)->circles[1].colour = 0xffcdb2;
 
-	(*shapes)->circles[2].center = set_vct(-1, 10, 20, 0);
+	(*shapes)->circles[2].center = set_vct(-1, 5, 20, 0);
 	(*shapes)->circles[2].radius = 2;
 	(*shapes)->circles[2].colour = 0x6c5b7b;
 

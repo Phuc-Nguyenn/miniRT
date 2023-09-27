@@ -40,6 +40,7 @@ void pln_intersects(t_ray *ray, t_pln *plane, t_light *lights) {
             luminosity = fmaxf(luminosity, AMBIENT);
             ray->colour = colour_factor(plane->colour, luminosity);
             ray->parameter = intsct_param;
+            ray->end_pos = intsct_pt;
         }
     }
 }

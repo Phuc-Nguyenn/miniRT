@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 12:25:24 by phunguye          #+#    #+#             */
-/*   Updated: 2023/09/25 23:19:46 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:35:04 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_ray
 {
 	t_vct start_pos;
 	t_vct direction;
+  t_vct end_pos;
 
 	float mag;
 	float parameter;
@@ -124,6 +125,9 @@ int initialise_mlx(t_mlxdata *mlxdata);
 //sph_intersects.c
 void sph_intersects(t_ray *ray, t_cir *sphere, t_light *lights);
 t_vct sphere_normal(t_cir sphere, t_vct intersection_point);
+int in_sph_shadow(t_ray *ray, t_cir *sphere, t_light *lights, float *shdw_distance);
+int intsct_current(t_ray to_lgt, t_cir *sphere);
+
 
 //pln_intersects.c
 float calc_pln_colour(t_ray ray, t_pln plane, t_light *lights);
@@ -143,6 +147,7 @@ int colour_add(int colour, int r, int g, int b, int a);
 int colour_desat(int colour, float desat_amt);
 int shdw_adjust_lume(int colour);
 float colour_lume(int colour);
+int colour_to_ambient(int colour, float ambient);
 
 //main.c
 int initialise_mlx(t_mlxdata *mlxdata);
@@ -150,6 +155,7 @@ void shadows(t_ray *rays, t_shapes *shapes, t_light *lights);
 
 //image.c
 void	clear_screen(t_mlxdata *mlxdata);
+void viewport_to_image(t_mlxdata *mlxdata, t_ray **rays);
 
 //vct_operations.c
 t_vct set_vct(float x, float y, float z, float alpha);
@@ -163,6 +169,7 @@ float vct_dot_prod(t_vct vct1, t_vct vct2);
 float discrim(float a, float b, float c);
 float quadratic_sol(float a, float b, float c);
 float quadratic_sol2(float a, float b, float c);
+t_vct rand_vct();
 
 
 //colours

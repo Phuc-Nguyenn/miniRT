@@ -6,7 +6,7 @@
 /*   By: phunguye <phunguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:18:28 by phunguye          #+#    #+#             */
-/*   Updated: 2023/07/20 14:20:13 by phunguye         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:23:04 by phunguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,20 @@ int get_colour_dec(float r, float g, float b, float l) {
 	blu = (int)(b*255);
 	hex_val = (red << 16) | (grn << 8) | blu;
 	return(hex_val);
+}
+
+int colour_to_ambient(int colour, float ambient){
+	int r = (colour >> 16) & 0xff;
+    int g = (colour >> 8) & 0xff;
+    int b = colour & 0xff;
+	float lume = (r+b+g)/3;
+
+	if(lume < ambient){
+		float multiplier = ambient * 255 / lume;
+		r = (int)(r * multiplier);
+		g = (int)(g * multiplier);
+		b = (int)(g * multiplier);
+	}
+	colour = ((r << 16) & 0xff0000) | ((g << 8) & 0x00ff00) | (b & 0x0000ff);
+    return colour;
 }

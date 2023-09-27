@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 # include "../miniRT.h"
+# include <stdlib.h>
+# include <time.h>
 
 t_vct set_vct(float x, float y, float z, float alpha) {
 	t_vct new;
@@ -19,6 +21,18 @@ t_vct set_vct(float x, float y, float z, float alpha) {
 	new.z = z;
 	new.alpha = alpha;
 	return(new);
+}
+
+float randomFloat() {
+    return (float)rand() / RAND_MAX;
+}
+
+t_vct rand_vct()
+{
+  srand(time(NULL));
+  t_vct ret = set_vct(randomFloat(), randomFloat(), randomFloat(), 0);
+  ret = unit_vct(ret);
+  return(ret);
 }
 
 t_vct vct_add(t_vct vct1, t_vct vct2) {
