@@ -2,6 +2,8 @@
 implementing ray tracing
 
 Simple Ray Caster/tracer program that renders shapes and shadows.
+![image](https://github.com/Phuc-Nguyenn/miniRT/assets/109639512/9d25685d-2c37-4222-bd6d-21216ba3628c)
+
 
 Usage -> Running linux
 sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev
