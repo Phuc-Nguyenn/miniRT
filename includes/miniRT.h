@@ -171,6 +171,8 @@ float discrim(float a, float b, float c);
 float quadratic_sol(float a, float b, float c);
 float quadratic_sol2(float a, float b, float c);
 t_vct rand_vct();
+t_vct rotateX(t_vct, float);
+t_vct rotateY(t_vct, float);
 
 void ft_miniRT(t_miniRT *miniRT);
 int	key_hook(int keycode, t_miniRT *miniRT);

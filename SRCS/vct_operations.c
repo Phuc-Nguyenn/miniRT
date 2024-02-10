@@ -12,6 +12,7 @@
 
 # include "../includes/miniRT.h"
 # include <stdlib.h>
+# include <math.h>
 # include <time.h>
 
 t_vct set_vct(float x, float y, float z, float alpha) {
@@ -110,4 +111,22 @@ float quadratic_sol2(float a, float b, float c) {
 	disc = discrim(a,b,c);
 	sol = ((-1*b) + sqrt(disc))/(2*a);
 	return(sol);
+}
+
+t_vct rotateX(t_vct vector, float angle) {
+    float radians = angle * M_PI / 180.0;
+    float newY = cos(radians) * vector.y - sin(radians) * vector.z;
+    float newZ = sin(radians) * vector.y + cos(radians) * vector.z;
+    vector.y = newY;
+    vector.z = newZ;
+    return vector;
+}
+
+t_vct rotateY(t_vct vector, float angle) {
+    float radians = angle * M_PI / 180.0;
+    float newX = cos(radians) * vector.x + sin(radians) * vector.z;
+    float newZ = -sin(radians) * vector.x + cos(radians) * vector.z;
+    vector.x = newX;
+    vector.z = newZ;
+    return vector;
 }
